@@ -1,13 +1,13 @@
 {
     "manifest_version": 2,
-    "name": "Links Panel",
+    "name": "__MSG_name__",
     "version": "1.0",
 
     "default_locale": "en",
-    "description": "Collate all the links on the page into an easily accessible panel",
+    "description": "__MSG_description__",
     "icons": {
         "16": "16.png",
-        "36": "36.png",
+        "32": "32.png",
         "48": "48.png",
        "128": "128.png"
     },
@@ -18,19 +18,14 @@
           "24": "24.png",
           "32": "32.png"
         },
-        "default_title": "Links Panel",
+        "default_title": "__MSG_name__",
         "default_popup": "panel.html"
       },
 
     "author": "Léon McGregor",
-    "background": {
-        "scripts": "background.js",
-        "persistent": false
-    },
-    "content_scripts": [{
-        "matches": "<all_urls>",
-        "js": ["content.js"]
-    }],
     "homepage_url": "https://github.com/LonMcGregor/LinksPanel",
-    "permissions": ["tabs"]
+    "permissions": ["<all_urls>"],
+    "web_accessible_resources": [
+        "content.js"
+    ]
   }

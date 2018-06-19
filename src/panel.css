@@ -1,0 +1,10 @@
+section {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+}
+section, a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}

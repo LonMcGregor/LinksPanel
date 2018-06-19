@@ -1,0 +1,14 @@
+{
+    "name": {
+        "message": "Links Panel",
+        "description": "Title of extension"
+    },
+    "description": {
+        "message": "Collate all the links on the page into an easily accessible panel",
+        "description": "Description of extension"
+    },
+    "refresh": {
+        "message": "Update List",
+        "description": "Text on button in panel that gets the latest set of links"
+    }
+}
