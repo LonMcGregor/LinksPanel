@@ -7,10 +7,6 @@
         "message": "Collate all the links on the page into an easily accessible panel",
         "description": "Description of extension"
     },
-    "refresh": {
-        "message": "Update List",
-        "description": "Text on button in panel that gets the latest set of links"
-    },
     "lock": {
         "message": "Click to Lock",
         "description": "Text on button in panel that prevents changes to the list of links"
@@ -22,5 +18,9 @@
     "search": {
         "message": "Search...",
         "description": "Prompt to filter the list of links"
+    },
+    "pagereload": {
+        "message": "Reload the page to get the links",
+        "description": "The current tab never loaded the content script properly, so prompt a reload"
     }
 }

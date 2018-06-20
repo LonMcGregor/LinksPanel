@@ -1,4 +1,8 @@
 {
     "esversion": 6,
-    "browser": true
+    "browser": true,
+    "globals": {
+        "chrome": false
+    },
+    "-W097": false
 }

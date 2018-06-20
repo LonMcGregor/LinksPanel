@@ -1,3 +1,26 @@
+body {
+    min-width: 300px;
+}
+
+
+header {
+    display: flex;
+    flex-direction: row;
+    position: sticky;
+    top: 0px;
+    height: 30px;
+    margin: 5px;
+    background: white;
+    width: calc(100% - 10px);
+}
+button.hidden {
+    display: none;
+}
+input {
+    flex-grow: 1;
+}
+
+
 section {
     display: flex;
     flex-direction: column;
@@ -8,15 +31,6 @@ section, span {
     overflow: hidden;
     white-space: nowrap;
 }
-
-header {
-    display: flex;
-    flex-direction: row;
-}
-input {
-    flex-grow: 1;
-}
-
 span {
     cursor: pointer;
 }
