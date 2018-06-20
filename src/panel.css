@@ -3,8 +3,23 @@ section {
     flex-direction: column;
     max-width: 500px;
 }
-section, a {
+section, span {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+}
+input {
+    flex-grow: 1;
+}
+
+span {
+    cursor: pointer;
+}
+span:hover {
+    text-decoration: underline;
 }

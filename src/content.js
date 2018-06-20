@@ -2,13 +2,12 @@
 // get computed styles
 // send to background
 // observe for additions (and removals?)
-
-(function scrapeLinks(){
+(function contentScript(){
 "use strict";
 
 function processAnchor(a){
     const computedStyle = window.getComputedStyle(a);
-    const properties = ["color", "font-family", "text-decoration", "font-weight"];
+    const properties = ["font-family", "font-weight"]; //could have option to choose additional css properties to grab
     let style = "";
     properties.forEach(prop => {
         style += `${prop}: ${computedStyle.getPropertyValue(prop)};`;
@@ -23,7 +22,7 @@ function processAnchor(a){
 
 function getAllAnchors(){
     const listOfAnchors = [];
-    document.querySelectorAll("a").forEach(a => {
+    document.querySelectorAll("a").forEach(a => { //prevent duplicates
         listOfAnchors.push(processAnchor(a));
     });
     return listOfAnchors;

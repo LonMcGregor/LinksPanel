@@ -10,5 +10,17 @@
     "refresh": {
         "message": "Update List",
         "description": "Text on button in panel that gets the latest set of links"
+    },
+    "lock": {
+        "message": "Click to Lock",
+        "description": "Text on button in panel that prevents changes to the list of links"
+    },
+    "unlock": {
+        "message": "Click to Auto-Update",
+        "description": "Text on button in panel that auto updates the latest set of links"
+    },
+    "search": {
+        "message": "Search...",
+        "description": "Prompt to filter the list of links"
     }
 }
