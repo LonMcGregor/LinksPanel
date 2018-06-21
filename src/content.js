@@ -1,30 +1,6 @@
 (function contentScript(){
 "use strict";
 
-/* Aliases for sanity */
-const $ = document.querySelector.bind(document);
-const $a = document.querySelectorAll.bind(document);
-const $$ = document.createElement.bind(document);
-
-/* TODO
-const ANCHOR_OBSERVER = new MutationObserver(records => {
-    records.forEach(record => {
-        let added = [], removed = [];
-        record.addedNodes.forEach(node => {
-            if(node.tagName.toLowerCase() === "a"){
-                added.push(processAnchor(node));
-            }
-        });
-        record.removedNodes.forEach(node => {
-            if(node.tagName.toLowerCase() === "a"){
-                added.push(processAnchor(node));
-            }
-        });
-        console.log(added, removed);
-    });
-});
-*/
-
 /**
  * Get relevant details out of an <a> node
  * @param a node
@@ -46,43 +22,28 @@ function processAnchor(a){
 }
 
 /**
- * Get list of details
+ * Get list of link details
  * @returns [link details]
  */
 function getAllAnchors(){
     const listOfAnchors = [];
-    $a("a").forEach(a => {
+    Array.from(document.links).forEach(a => {
         listOfAnchors.push(processAnchor(a));
     });
     return listOfAnchors;
 }
 
 /**
- * Send a message with specified links to background
- * @param [link details]
+ * Receieve a message - will probably be a request to get links
+ * @param message
+ * @param sender
+ * @param callback takes the links as argument
  */
-function sendLinksToBackground(links){
-    chrome.runtime.sendMessage({
-        updateBackground: true,
-        links: links
-    });
+function onMessage(message, sender, callback){
+    if(message.panelWantsLinks){
+        callback(getAllAnchors());
+    }
 }
+chrome.runtime.onMessage.addListener(onMessage);
 
-/* TODO removed and added links*/
-function sendLinksRemovedToBackground(links){
-    chrome.runtime.sendMessage();
-}
-function sendLinksAddedToBackground(links){
-    chrome.runtime.sendMessage();
-}
-
-/**
- * Run the content script (get initial link detail array) and start the observer
- */
-function init(){
-    sendLinksToBackground(getAllAnchors());
-    /*ANCHOR_OBSERVER.observe(document.body, {childList: true, subtree: true});*/
-}
-
-init();
 })();

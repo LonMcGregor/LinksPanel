@@ -15,7 +15,7 @@
     "homepage_url": "https://github.com/LonMcGregor/LinksPanel",
 
     "background": {
-      "scripts": ["background.js"],
+      "scripts": ["panel.js"],
       "persistent": false
     },
 
@@ -34,5 +34,11 @@
         "matches": ["<all_urls>"],
         "js": ["content.js"]
       }
-    ]
+    ],
+
+    "web_accessible_resources": [
+      "content.js"
+    ],
+
+    "permissions": ["<all_urls>"]
 }

@@ -84,33 +84,84 @@ function toggleLock(){
  * Received an array of link details to put in panel
  * @param links array details
  */
-function onMsgUpdatePanel(links){
-    CURRENT_LINKS = links;
-    populatePanel(links);
-}
-
-/**
- * Receieved a prompt that current page never ran content script
- */
-function onMsgPromptReload(){
-    emptyLinks();
-    const msg = $$("p");
-    msg.innerText = chrome.i18n.getMessage("pagereload");
-    $("section").appendChild(msg);
-}
-
-/**
- * Receieve messages, and check if locked then don't do anything
- */
-chrome.runtime.onMessage.addListener((message, sender, responder) => {
-    if(isLocked()){
-        return;
-    } else if(message.updatePanel){
-        onMsgUpdatePanel(message.links);
-    } else if(message.currentPageNeedsReload){
-        onMsgPromptReload();
+function updateCurrentLinks(links){
+    if(!isLocked()){
+        CURRENT_LINKS = links;
+        populatePanel(links);
     }
-});
+}
+
+/**
+ * Display an information item in panel
+ * @param info string
+ */
+function clearLinksAndInfo(info){
+    if(!isLocked()){
+        CURRENT_LINKS = [];
+        emptyLinks();
+        const p = $$("p");
+        p.innerText = info;
+        $("section").appendChild(p);
+    }
+}
+
+
+/**
+ * When a new tab is activated change what is in the panel
+ * @param info A tab was activated
+ */
+function onTabActivate(info){
+    chrome.windows.getLastFocused(window => {
+        const tabWindowOnTop = info.windowId == window.id;
+        if(tabWindowOnTop){
+            requestLinksFromTabs(info.tabId);
+        }
+    });
+}
+
+/**
+ * Try to inject the content script, and then request the links
+ */
+function injectContentScript(tabId, attempts){
+    chrome.tabs.executeScript(tabId, {
+        file: "content.js"
+    }, () => {
+        requestLinksFromTabs(tabId, attempts);
+    });
+}
+
+/**
+ * Try to get links from a tab. give up if it fails after 2 tries.
+ * @param tabId
+ * @param attempts how many tries to inject the script.
+ */
+function requestLinksFromTabs(tabId, attempts){
+    if(!attempts){
+        attempts = 0;
+    }
+    if(attempts > 2){
+        clearLinksAndInfo(chrome.i18n.getMessage("failed"));
+        return;
+    }
+    chrome.tabs.sendMessage(tabId, {
+        panelWantsLinks: true
+    }, {}, links => {
+        if(!links){
+            injectContentScript(tabId, attempts + 1);
+        } else {
+            updateCurrentLinks(links);
+        }
+    });
+}
+
+/**
+ * Panel first activated, get links from active tab
+ */
+function requestLinksFromActiveTab(){
+    chrome.tabs.query({active:true, lastFocusedWindow: true}, tabs => {
+        requestLinksFromTabs(tabs[0].id);
+    });
+}
 
 /**
  * Init page i18n and listeners
@@ -119,16 +170,10 @@ $("#lock").addEventListener("click", toggleLock);
 $("#lock").innerText = chrome.i18n.getMessage("lock");
 $("#unlock").addEventListener("click", toggleLock);
 $("#unlock").innerText = chrome.i18n.getMessage("unlock");
-
 $("input").addEventListener("input", search);
 $("input").placeholder = chrome.i18n.getMessage("search");
-
 document.title = chrome.i18n.getMessage("name");
 
-/**
- * Once page loaded, request the links for current page
- *   i.e. if opening in browser action popup
- */
-chrome.runtime.sendMessage({
-    panelRequestLatest: true
-});
+chrome.tabs.onActivated.addListener(onTabActivate);
+
+requestLinksFromActiveTab();
