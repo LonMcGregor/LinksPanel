@@ -117,6 +117,20 @@ function clearLinksAndInfo(info){
     }
 }
 
+/**
+ * When a tab is updated, check links again (if tab is active)
+ * @param tabId
+ * @param info what changed about the tab
+ * @param tab the tab object
+ */
+function onTabUpdate(tabId, info, tab){
+    chrome.windows.getLastFocused(window => {
+        const tabWindowOnTop = tab.windowId == window.id;
+        if(tabWindowOnTop){
+            requestLinksFromTabs(tabId);
+        }
+    });
+}
 
 /**
  * When a new tab is activated change what is in the panel
@@ -187,5 +201,6 @@ $("input").placeholder = chrome.i18n.getMessage("search");
 document.title = chrome.i18n.getMessage("name");
 
 chrome.tabs.onActivated.addListener(onTabActivate);
+chrome.tabs.onUpdated.addListener(onTabUpdate);
 
 requestLinksFromActiveTab();
