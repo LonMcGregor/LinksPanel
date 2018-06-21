@@ -135,7 +135,7 @@ function clearLinksAndInfo(info){
 function onTabUpdate(tabId, info, tab){
     chrome.windows.getLastFocused(window => {
         const tabWindowOnTop = tab.windowId == window.id;
-        if(tabWindowOnTop){
+        if(tabWindowOnTop && tab.active){
             requestLinksFromTabs(tabId);
         }
     });
@@ -211,5 +211,6 @@ document.title = chrome.i18n.getMessage("name");
 
 chrome.tabs.onActivated.addListener(onTabActivate);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
+chrome.windows.onFocusChanged.addListener(requestLinksFromActiveTab);
 
 requestLinksFromActiveTab();
