@@ -20,7 +20,11 @@
         "description": "Prompt to filter the list of links"
     },
     "failed": {
-        "message": "Failed to get links from tab",
+        "message": "Could not get any links from tab",
         "description": "The extension failed to get links from the page"
+    },
+    "noLinks": {
+        "message": "No Links",
+        "description": "The page doesn't have any <a> links, or the current search filter doesn't return anything"
     }
 }

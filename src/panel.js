@@ -36,12 +36,26 @@ function emptyLinks(){
 }
 
 /**
+ * Add an info item to the panel
+ * @param info the text to show
+ */
+function makeInfoItem(info){
+    const p = $$("p");
+    p.innerText = info;
+    $("section").appendChild(p);
+}
+
+/**
  * Given the array of link details,populate the panel
  * @param [links details] to put into the panel
  */
 function populatePanel(links){
     emptyLinks();
     const section = $("section");
+    if(links.length===0){
+        makeInfoItem(chrome.i18n.getMessage("noLinks"));
+        return;
+    }
     links.forEach(link => {
         section.appendChild(makeLink(link));
     });
@@ -99,9 +113,7 @@ function clearLinksAndInfo(info){
     if(!isLocked()){
         CURRENT_LINKS = [];
         emptyLinks();
-        const p = $$("p");
-        p.innerText = info;
-        $("section").appendChild(p);
+        makeInfoItem(info);
     }
 }
 
@@ -146,7 +158,7 @@ function requestLinksFromTabs(tabId, attempts){
     chrome.tabs.sendMessage(tabId, {
         panelWantsLinks: true
     }, {}, links => {
-        if(!links){
+        if(links===undefined){
             injectContentScript(tabId, attempts + 1);
         } else {
             updateCurrentLinks(links);
