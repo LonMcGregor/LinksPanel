@@ -1,6 +1,9 @@
 # Links Panel
 Links Panel, collecting all the links on a page
 
+## Installing
+From the [CWS](https://chrome.google.com/webstore/detail/links-panel/nnnheolekoehkioeicninoneagaimnjd)
+
 ## What can it do
 Grab all the links on the page and show them to you, like classic opera could.
 
@@ -17,9 +20,9 @@ You can toggle this in extension settings.
 ## Adding as a web panel
 In Vivaldi, you can add this as a web panel.
 
-Turn on *Developer Mode* in the extensions page and get the ID of the extension.
+Add `chrome-extension://nnnheolekoehkioeicninoneagaimnjd/panel.html` as a web panel.
 
-Add `chrome-extension://eofhkahmgjlddedjnbjmndkgmiabhifi/panel.html` as a web panel, exchanging the long string for whatever the extension ended up installing as.
+Note if you're installing the extension unpacked, exchange the long string for whatever the extension ended up installing as.
 
 ### Forcing the web panel icon
 
@@ -32,4 +35,4 @@ Vivaldi may fail to load the web panel icon. You can force it with the following
 
 ### Forcing the panel to follow the browser theme
 
-Utilise the mod from here: [LonMcGregor/VivaldiMods/injectThemeIntoPage.js](https://github.com/LonMcGregor/VivaldiMods/blob/master/mods/injectThemeIntoPage.js) and add the URL of your web panel to the top of the script.
+Utilise the mod from here: [LonMcGregor/VivaldiMods/injectThemeIntoPage.js](https://github.com/LonMcGregor/VivaldiMods/blob/master/mods/injectThemeIntoPage.js) and change the URL at the top of the script to `chrome-extension://nnnheolekoehkioeicninoneagaimnjd/panel.html`.
