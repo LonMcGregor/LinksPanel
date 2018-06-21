@@ -49,7 +49,6 @@ function onMessage(message, sender, callback){
         callback(getAllAnchors());
     }
 }
-chrome.runtime.onMessage.addListener(onMessage);
 
 let SETTINGS;
 chrome.storage.sync.get({
@@ -59,6 +58,7 @@ chrome.storage.sync.get({
     fs: true
 }, items => {
     SETTINGS = items;
+    chrome.runtime.onMessage.addListener(onMessage);
 });
 
 })();
