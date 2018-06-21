@@ -1,7 +1,8 @@
 body {
     min-width: 300px;
+    background-color:  var(--colorBgLightIntense);
+    color: var(--colorFg);
 }
-
 
 header {
     display: flex;
@@ -9,17 +10,25 @@ header {
     position: sticky;
     top: 0px;
     height: 30px;
-    margin: 5px;
-    background: white;
-    width: calc(100% - 10px);
+    margin: 5px 0px;
+    background: var(--colorBgLightIntense);
+    width: 100%;
+}
+button, input {
+    border-radius: var(--radiusRound);
+    border: 1px solid var(--colorBorder);
+    color: var(--colorFg);
+}
+button {
+    background: linear-gradient(var(--colorBgLightIntense), var(--colorBg));
 }
 button.hidden {
     display: none;
 }
 input {
     flex-grow: 1;
+    background: var(--colorBgLightIntense);
 }
-
 
 section {
     display: flex;
