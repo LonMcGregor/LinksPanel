@@ -66,16 +66,25 @@ function populatePanel(links){
  * REMARK: Currently searches for match in any of title, text, href
  */
 function search(){
-    const searchTerm = $("input").value;
-    const validLinks = [];
-    CURRENT_LINKS.forEach(link => {
-        if(link.href.indexOf(searchTerm) > -1 ||
-           link.title.indexOf(searchTerm) > -1 ||
-           link.text.indexOf(searchTerm) > -1){
-               validLinks.push(link);
-           }
-    }); //optimise search?
-    populatePanel(validLinks);
+    chrome.storage.sync.get({
+        url: true,
+        title: true,
+        text: true,
+        case: false
+    }, items => {
+        const searchTerm = $("input").value;
+        const validLinks = [];
+        CURRENT_LINKS.forEach(link => {
+            const term = items.case ? searchTerm : searchTerm.toLowerCase();
+            const url = items.url && (items.case ? link.href : link.href.toLowerCase()).indexOf(term) > -1;
+            const title = items.title && (items.case ? link.title : link.title.toLowerCase()).indexOf(term) > -1;
+            const text = items.text && (items.case ? link.text : link.text.toLowerCase()).indexOf(term) > -1;
+            if(url || title || text){
+                validLinks.push(link);
+            }
+        });
+        populatePanel(validLinks);
+    });
 }
 
 /**

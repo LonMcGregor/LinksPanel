@@ -40,5 +40,10 @@
       "content.js"
     ],
 
-    "permissions": ["<all_urls>"]
+    "permissions": ["<all_urls>", "storage"],
+
+    "options_ui": {
+      "page": "options.html",
+      "open_in_tab": false
+    }
 }

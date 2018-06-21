@@ -26,5 +26,41 @@
     "noLinks": {
         "message": "No Links",
         "description": "The page doesn't have any <a> links, or the current search filter doesn't return anything"
+    },
+    "options":{
+        "message": "Links Panel Options",
+        "description": "Title of options page"
+    },
+    "style":{
+        "message": "What CSS properties to style panel with",
+        "description": "Settings page prompt for style options"
+    },
+    "searchOptions":{
+        "message": "What to look through when searching",
+        "description": "Settings page prompt for search options"
+    },
+    "url":{
+        "message": "URL",
+        "description": "Settings page prompt for search options (URL)"
+    },
+    "title":{
+        "message": "Title",
+        "description": "Settings page prompt for search options (Title)"
+    },
+    "text":{
+        "message": "Text",
+        "description": "Settings page prompt for search options (Text)"
+    },
+    "save":{
+        "message": "Save",
+        "description": "Settings page prompt to save"
+    },
+    "saved":{
+        "message": "Saved! Panel will not change style unless page is reloaded.",
+        "description": "Settings page prompt save complete"
+    },
+    "case":{
+        "message": "MaTcH CaSe",
+        "description": "Settings page prompt search follow case"
     }
 }

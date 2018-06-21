@@ -8,16 +8,21 @@
  */
 function processAnchor(a){
     const computedStyle = window.getComputedStyle(a);
-    const properties = ["font-family", "font-weight", "font-style"]; /* TODO could have option to choose additional css properties to grab */
-    let style = "";
+    let propString = "";
+    propString += SETTINGS.color ? "color " : "";
+    propString += SETTINGS.ff ? "font-family " : "";
+    propString += SETTINGS.fw ? "font-weight " : "";
+    propString += SETTINGS.fs ? "font-style" : "";
+    const properties = propString.split(" ");
+    let styleString = "";
     properties.forEach(prop => {
-        style += `${prop}: ${computedStyle.getPropertyValue(prop)};`;
+        styleString += `${prop}: ${computedStyle.getPropertyValue(prop)};`;
     });
     return {
         title: a.title,
         text: a.innerText.split("\n")[0].trim() === "" ? a.href : a.innerText.split("\n")[0].trim(),
         href: a.href,
-        style: style
+        style: styleString
     };
 }
 
@@ -45,5 +50,15 @@ function onMessage(message, sender, callback){
     }
 }
 chrome.runtime.onMessage.addListener(onMessage);
+
+let SETTINGS;
+chrome.storage.sync.get({
+    color: false,
+    ff: true,
+    fw: true,
+    fs: true
+}, items => {
+    SETTINGS = items;
+});
 
 })();
