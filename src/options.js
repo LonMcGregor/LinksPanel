@@ -58,4 +58,5 @@ $("#title + span").innerText = chrome.i18n.getMessage("title");
 $("#text + span").innerText = chrome.i18n.getMessage("text");
 $("#case + span").innerText = chrome.i18n.getMessage("case");
 $("#save").innerText = chrome.i18n.getMessage("save");
+$("#advert").innerText = chrome.i18n.getMessage("vivaldi");
 document.getElementById('save').addEventListener('click', save);

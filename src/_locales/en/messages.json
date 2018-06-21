@@ -62,5 +62,9 @@
     "case":{
         "message": "MaTcH CaSe",
         "description": "Settings page prompt search follow case"
+    },
+    "vivaldi":{
+        "message": "Works best in a Vivaldi web panel!",
+        "description": "vivaldi advert"
     }
 }
