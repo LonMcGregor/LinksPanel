@@ -7,7 +7,12 @@
  * @returns Link detail strings {title, text, href, style}
  */
 function processAnchor(a){
-    const computedStyle = window.getComputedStyle(a);
+    let computedStyle;
+    try{
+        computedStyle = window.getComputedStyle(a);
+    } catch {
+        return {fail:true};
+    }
     let propString = "";
     propString += SETTINGS.color ? "color " : "";
     propString += SETTINGS.ff ? "font-family " : "";
@@ -34,7 +39,10 @@ function getAllAnchors(){
     const listOfAnchors = [];
     const allLinks = document.links;
     for(let i = 0; i < SETTINGS.max; i++){
-        listOfAnchors.push(processAnchor(allLinks[i]));
+        const link = processAnchor(allLinks[i]);
+        if(!link.fail){
+            listOfAnchors.push(link);
+        }
     }
     return listOfAnchors;
 }
