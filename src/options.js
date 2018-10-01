@@ -15,7 +15,8 @@ function save() {
         url: $("#url").checked,
         title: $("#title").checked,
         text: $("#text").checked,
-        case: $("#case").checked
+        case: $("#case").checked,
+        max: $("#max").value
     }, () => {
         $("#save").innerText = chrome.i18n.getMessage("saved");
         setTimeout(() => {
@@ -36,7 +37,8 @@ function restore() {
         url: true,
         title: true,
         text: true,
-        case: false
+        case: false,
+        max: 5000
     }, items => {
         $("#color").checked = items.color;
         $("#ff").checked = items.ff;
@@ -46,6 +48,7 @@ function restore() {
         $("#title").checked = items.title;
         $("#text").checked = items.text;
         $("#case").checked = items.case;
+        $("#max").value = items.max;
     });
 }
 document.addEventListener('DOMContentLoaded', restore);
@@ -59,4 +62,12 @@ $("#text + span").innerText = chrome.i18n.getMessage("text");
 $("#case + span").innerText = chrome.i18n.getMessage("case");
 $("#save").innerText = chrome.i18n.getMessage("save");
 $("#advert").innerText = chrome.i18n.getMessage("vivaldi");
+$("#maxlinks").innerText = chrome.i18n.getMessage("maxlinks");
+$("#max").addEventListener("input", () => {
+    if($("#max").value > 5000){
+        $("#maxwarn").innerText = chrome.i18n.getMessage("maxwarn");
+    } else {
+        $("#maxwarn").innerText = "";
+    }
+})
 document.getElementById('save').addEventListener('click', save);

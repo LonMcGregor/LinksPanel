@@ -66,5 +66,13 @@
     "vivaldi":{
         "message": "Works best in a Vivaldi web panel!",
         "description": "vivaldi advert"
+    },
+    "maxlinks":{
+        "message": "Maximum number of links to parse",
+        "description": "Setings prompt for max number links to parse"
+    },
+    "maxwarn":{
+        "message": "Increasing the number of max links could have performance dips. Recommended max: 5000",
+        "description": "Warning that appears in settings if the max number of links is very high"
     }
 }

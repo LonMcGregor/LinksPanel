@@ -32,9 +32,10 @@ function processAnchor(a){
  */
 function getAllAnchors(){
     const listOfAnchors = [];
-    Array.from(document.links).forEach(a => {
-        listOfAnchors.push(processAnchor(a));
-    });
+    const allLinks = document.links;
+    for(let i = 0; i < SETTINGS.max; i++){
+        listOfAnchors.push(processAnchor(allLinks[i]));
+    }
     return listOfAnchors;
 }
 
@@ -55,7 +56,8 @@ chrome.storage.sync.get({
     color: false,
     ff: true,
     fw: true,
-    fs: true
+    fs: true,
+    max: 5000
 }, items => {
     SETTINGS = items;
     chrome.runtime.onMessage.addListener(onMessage);
