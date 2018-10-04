@@ -10,7 +10,7 @@ function processAnchor(a){
     let computedStyle;
     try{
         computedStyle = window.getComputedStyle(a);
-    } catch {
+    } catch (e) {
         return {fail:true};
     }
     let propString = "";
