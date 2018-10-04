@@ -61,7 +61,7 @@ $("#title + span").innerText = chrome.i18n.getMessage("title");
 $("#text + span").innerText = chrome.i18n.getMessage("text");
 $("#case + span").innerText = chrome.i18n.getMessage("case");
 $("#save").innerText = chrome.i18n.getMessage("save");
-$("#advert").innerText = chrome.i18n.getMessage("vivaldi");
+$("#advert").innerText = chrome.i18n.getMessage("vivaldi") + chrome.runtime.getURL("panel.html");
 $("#maxlinks").innerText = chrome.i18n.getMessage("maxlinks");
 $("#max").addEventListener("input", () => {
     if($("#max").value > 5000){
