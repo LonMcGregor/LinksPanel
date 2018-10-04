@@ -49,7 +49,7 @@ function makeInfoItem(info){
  * Given the array of link details,populate the panel
  * @param [links details] to put into the panel
  */
-function populatePanel(links){
+async function populatePanel(links){
     emptyLinks();
     const section = $("section");
     if(links.length===0){
