@@ -26,16 +26,6 @@ Link: ${link.href}`;
 }
 
 /**
- * Remove everything from the panel section
- */
-function emptyLinks(){
-    const section = $("section");
-    $a("section *").forEach(span => {
-        section.removeChild(span);
-    });
-}
-
-/**
  * Add an info item to the panel
  * @param info the text to show
  */
@@ -50,15 +40,18 @@ function makeInfoItem(info){
  * @param [links details] to put into the panel
  */
 async function populatePanel(links){
-    emptyLinks();
     const section = $("section");
+    section.parentElement.removeChild(section);
+    const section2 = $$("section");
     if(links.length===0){
+        document.body.appendChild(section2);
         makeInfoItem(chrome.i18n.getMessage("noLinks"));
         return;
     }
     links.forEach(link => {
-        section.appendChild(makeLink(link));
+        section2.appendChild(makeLink(link));
     });
+    document.body.appendChild(section2);
 }
 
 /**
@@ -67,7 +60,7 @@ async function populatePanel(links){
  */
 function search(){
     chrome.storage.sync.get({
-        url: true,
+        url: false,
         title: true,
         text: true,
         case: false
@@ -110,7 +103,11 @@ function toggleLock(){
 function updateCurrentLinks(links){
     if(!isLocked()){
         CURRENT_LINKS = links;
-        populatePanel(links);
+        if($("input").value===""){
+            populatePanel(links);
+        } else {
+            search();
+        }
     }
 }
 
@@ -121,7 +118,10 @@ function updateCurrentLinks(links){
 function clearLinksAndInfo(info){
     if(!isLocked()){
         CURRENT_LINKS = [];
-        emptyLinks();
+        const section = $("section");
+        section.parentElement.removeChild(section);
+        const section2 = $$("section");
+        document.body.appendChild(section2);
         makeInfoItem(info);
     }
 }
@@ -168,23 +168,13 @@ function injectContentScript(tabId, attempts){
 /**
  * Try to get links from a tab. give up if it fails after 2 tries.
  * @param tabId
- * @param attempts how many tries to inject the script.
  */
-function requestLinksFromTabs(tabId, attempts){
-    if(!attempts){
-        attempts = 0;
-    }
-    if(attempts > 2){
-        clearLinksAndInfo(chrome.i18n.getMessage("failed"));
-        return;
-    }
+function requestLinksFromTabs(tabId){
     chrome.tabs.sendMessage(tabId, {
         panelWantsLinks: true
-    }, {}, links => {
-        if(links===undefined){
-            injectContentScript(tabId, attempts + 1);
-        } else {
-            updateCurrentLinks(links);
+    }, {}, response => {
+        if(!response){
+            clearLinksAndInfo(chrome.i18n.getMessage("failed"));
         }
     });
 }
@@ -193,8 +183,27 @@ function requestLinksFromTabs(tabId, attempts){
  * Panel first activated, get links from active tab
  */
 function requestLinksFromActiveTab(){
-    chrome.tabs.query({active:true, lastFocusedWindow: true}, tabs => {
-        requestLinksFromTabs(tabs[0].id);
+    chrome.tabs.query({active:true, lastFocusedWindow: true, windowType: "normal"}, tabs => {
+        if(tabs[0]){
+            requestLinksFromTabs(tabs[0].id);
+        } else {
+            console.warn("No valid active tab. Focus may be in dev tools, or tab didn't load.")
+        }
+    });
+}
+
+/**
+ * Receieve a message - will probably be a request to get links
+ * @param message
+ * @param sender
+ */
+function onMessage(message, sender){
+    chrome.windows.getLastFocused({}, window => {
+        if(sender.tab && sender.tab.active && sender.tab.windowId===window.id){
+            if(message.someLinks){
+                updateCurrentLinks(message.someLinks);
+            }
+        }
     });
 }
 
@@ -212,5 +221,6 @@ document.title = chrome.i18n.getMessage("name");
 chrome.tabs.onActivated.addListener(onTabActivate);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
 chrome.windows.onFocusChanged.addListener(requestLinksFromActiveTab);
+chrome.runtime.onMessage.addListener(onMessage);
 
 requestLinksFromActiveTab();

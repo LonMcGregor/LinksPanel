@@ -34,7 +34,7 @@ function restore() {
         ff: true,
         fw: true,
         fs: true,
-        url: true,
+        url: false,
         title: true,
         text: true,
         case: false,

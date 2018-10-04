@@ -32,8 +32,15 @@ function processAnchor(a){
 }
 
 /**
+ * Send message with link details
+ * @param links to send
+ */
+function sendLinks(links){
+    chrome.runtime.sendMessage(links);
+}
+
+/**
  * Get list of link details
- * @returns [link details]
  */
 function getAllAnchors(){
     const listOfAnchors = [];
@@ -44,18 +51,19 @@ function getAllAnchors(){
             listOfAnchors.push(link);
         }
     }
-    return listOfAnchors;
+    sendLinks({someLinks: listOfAnchors});
 }
 
 /**
  * Receieve a message - will probably be a request to get links
  * @param message
  * @param sender
- * @param callback takes the links as argument
+ * @param callback
  */
 function onMessage(message, sender, callback){
     if(message.panelWantsLinks){
-        callback(getAllAnchors());
+        callback(true);
+        getAllAnchors();
     }
 }
 
