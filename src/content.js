@@ -13,6 +13,12 @@ function processAnchor(a){
     } catch (e) {
         return {fail:true};
     }
+    if(SETTINGS.samePage && (a.href===window.location.href || a.href===window.location.href+"#")){
+        return {fail:true};
+    }
+    if(SETTINGS.justScript && a.href.indexOf("javascript:")===0){
+        return {fail:true};
+    }
     let propString = "";
     propString += SETTINGS.color ? "color " : "";
     propString += SETTINGS.ff ? "font-family " : "";
@@ -73,7 +79,9 @@ chrome.storage.sync.get({
     ff: true,
     fw: true,
     fs: true,
-    max: 5000
+    max: 5000,
+    samePage: true,
+    justScript: true
 }, items => {
     SETTINGS = items;
     chrome.runtime.onMessage.addListener(onMessage);

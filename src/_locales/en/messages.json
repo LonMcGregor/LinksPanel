@@ -74,5 +74,13 @@
     "maxwarn":{
         "message": "Increasing the number of max links could have performance dips. Recommended max: 5000",
         "description": "Warning that appears in settings if the max number of links is very high"
+    },
+    "samePage":{
+        "message": "Hide links to current page",
+        "description": "Prompt for checkbox to hide links to current page"
+    },
+    "justScript":{
+        "message": "Hide links that are just a script",
+        "description": "Prompt for checkbox to hide links that are just scripts"
     }
 }
