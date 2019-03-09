@@ -13,16 +13,18 @@ let CURRENT_LINKS;
  * @returns span DOM node
  */
 function makeLink(link){
-    const span = $$("span");
-    span.style = link.style;
+    const panelLink = $$("a");
+    panelLink.style = link.style;
     const tipTitle = link.title ? link.title : link.text;
-    span.title = (tipTitle===link.href) ? link.href : `Title: ${tipTitle}
+    panelLink.title = (tipTitle===link.href) ? link.href : `Title: ${tipTitle}
 Link: ${link.href}`;
-    span.innerText = link.text;
-    span.addEventListener("click", e => {
+    panelLink.innerText = link.text;
+    panelLink.target = "_blank";
+    panelLink.href = link.href;
+    /*panelLink.addEventListener("click", e => {
         chrome.tabs.create({url: link.href});
-    });
-    return span;
+    });*/
+    return panelLink;
 }
 
 /**

@@ -35,14 +35,8 @@ section {
     flex-direction: column;
     max-width: 500px;
 }
-section, span {
+section, a {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-}
-span {
-    cursor: pointer;
-}
-span:hover {
-    text-decoration: underline;
 }
