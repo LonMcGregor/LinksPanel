@@ -13,7 +13,7 @@ function processAnchor(a){
     } catch (e) {
         return {fail:true};
     }
-    if(SETTINGS.samePage && (a.href===window.location.href || a.href===window.location.href+"#")){
+    if(SETTINGS.samePage && (a.href===window.location.href || a.href===window.location.href+"#" || a.href===window.location.href+"?" || a.href===window.location.href+"/")){
         return {fail:true};
     }
     if(SETTINGS.justScript && a.href.indexOf("javascript:")===0){
