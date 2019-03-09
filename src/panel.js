@@ -10,9 +10,10 @@ let CURRENT_LINKS;
 /**
  * Create a <span> for a specific link
  * @param link details
+ * @param index a number identifying where in the list this link is
  * @returns span DOM node
  */
-function makeLink(link){
+function makeLink(link, index){
     const panelLink = $$("a");
     panelLink.style = link.style;
     const tipTitle = link.title ? link.title : link.text;
@@ -21,10 +22,61 @@ Link: ${link.href}`;
     panelLink.innerText = link.text;
     panelLink.target = "_blank";
     panelLink.href = link.href;
-    /*panelLink.addEventListener("click", e => {
-        chrome.tabs.create({url: link.href});
-    });*/
+    panelLink.id = index;
+    panelLink.addEventListener("click", multiSelectLinks);
     return panelLink;
+}
+
+/**
+ * Handle multiple selection of links
+ * @param {MouseEvent} e click event on a given link
+ */
+let lastMultiSelectedLinkId = undefined;
+function multiSelectLinks(e) {
+    if(e.ctrlKey){
+        e.preventDefault();
+        e.target.classList.toggle("selected");
+        lastMultiSelectedLinkId = e.target.id;
+        return;
+    } else if (e.shiftKey){
+        e.preventDefault();
+        if(lastMultiSelectedLinkId===undefined || lastMultiSelectedLinkId===e.target.id){
+            e.target.classList.toggle("selected");
+        } else if (Number(lastMultiSelectedLinkId) < Number(e.target.id)) {
+            /* Previous selection was lower ID, so iterate up the list */
+            let current = e.target
+            while(current.id !== lastMultiSelectedLinkId){
+                current.classList.toggle("selected");
+                current = current.previousSibling;
+            }
+        } else {
+            /* Previous selection was higher ID, so iterate down the list */
+            let current = e.target
+            while(current.id !== lastMultiSelectedLinkId){
+                current.classList.toggle("selected");
+                current = current.nextSibling;
+            }
+        }
+        lastMultiSelectedLinkId = e.target.id;
+    } else {
+        lastMultiSelectedLinkId = undefined;
+    }
+}
+
+/**
+ * Open all selected links on "enter" press
+ * @param {KeyboardEvent} e keypress
+ */
+function openAllSelectedLinks(e){
+    if(e.key==="Enter"){
+        e.preventDefault();
+        const selected = document.querySelectorAll("a.selected");
+        selected.forEach(link => {
+            chrome.tabs.create({url:link.href, active:false});
+            link.classList.toggle("selected");
+        });
+        lastMultiSelectedLinkId = undefined;
+    }
 }
 
 /**
@@ -44,15 +96,16 @@ function makeInfoItem(info){
 async function populatePanel(links){
     const section = $("section");
     section.parentElement.removeChild(section);
+    lastMultiSelectedLinkId = undefined;
     const section2 = $$("section");
     if(links.length===0){
         document.body.appendChild(section2);
         makeInfoItem(chrome.i18n.getMessage("noLinks"));
         return;
     }
-    links.forEach(link => {
-        section2.appendChild(makeLink(link));
-    });
+    for (let i = 0; i < links.length; i++) {
+        section2.appendChild(makeLink(links[i], i));
+    }
     document.body.appendChild(section2);
 }
 
@@ -221,6 +274,7 @@ $("input").placeholder = chrome.i18n.getMessage("search");
 $("#options").addEventListener("click", () => chrome.runtime.openOptionsPage());
 $("#options").title = chrome.i18n.getMessage("options");
 document.title = chrome.i18n.getMessage("name");
+document.addEventListener("keydown", openAllSelectedLinks);
 
 chrome.tabs.onActivated.addListener(onTabActivate);
 chrome.tabs.onUpdated.addListener(onTabUpdate);

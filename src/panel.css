@@ -40,3 +40,7 @@ section, a {
     overflow: hidden;
     white-space: nowrap;
 }
+a.selected {
+    background: blue;
+    color: white;
+}
