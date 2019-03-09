@@ -12,7 +12,7 @@
         "description": "Text on button in panel that prevents changes to the list of links"
     },
     "unlock": {
-        "message": "Click to Auto-Update",
+        "message": "Click to Unlock",
         "description": "Text on button in panel that auto updates the latest set of links"
     },
     "search": {

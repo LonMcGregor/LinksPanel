@@ -218,6 +218,8 @@ $("#unlock").addEventListener("click", toggleLock);
 $("#unlock").innerText = chrome.i18n.getMessage("unlock");
 $("input").addEventListener("input", search);
 $("input").placeholder = chrome.i18n.getMessage("search");
+$("#options").addEventListener("click", () => chrome.runtime.openOptionsPage());
+$("#options").title = chrome.i18n.getMessage("options");
 document.title = chrome.i18n.getMessage("name");
 
 chrome.tabs.onActivated.addListener(onTabActivate);
