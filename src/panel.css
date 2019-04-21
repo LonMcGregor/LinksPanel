@@ -40,7 +40,13 @@ section, a {
     overflow: hidden;
     white-space: nowrap;
 }
+a:link {
+    color: var(--colorHighlightBg);
+}
+a:visited {
+    color: var(--colorFg);
+}
 a.selected {
-    background: blue;
-    color: white;
+    background: var(--colorHighlightBg);
+    color: var(--colorHighlightFg);
 }

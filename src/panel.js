@@ -1,9 +1,6 @@
 "use strict";
 
 /* Aliases for sanity */
-const $ = document.querySelector.bind(document);
-const $a = document.querySelectorAll.bind(document);
-const $$ = document.createElement.bind(document);
 
 let CURRENT_LINKS;
 
@@ -14,7 +11,7 @@ let CURRENT_LINKS;
  * @returns span DOM node
  */
 function makeLink(link, index){
-    const panelLink = $$("a");
+    const panelLink = document.createElement("a");
     panelLink.style = link.style;
     const tipTitle = link.title ? link.title : link.text;
     panelLink.title = (tipTitle===link.href) ? link.href : `Title: ${tipTitle}
@@ -84,9 +81,9 @@ function openAllSelectedLinks(e){
  * @param info the text to show
  */
 function makeInfoItem(info){
-    const p = $$("p");
+    const p = document.createElement("p");
     p.innerText = info;
-    $("section").appendChild(p);
+    document.querySelector("section").appendChild(p);
 }
 
 /**
@@ -94,10 +91,10 @@ function makeInfoItem(info){
  * @param [links details] to put into the panel
  */
 async function populatePanel(links){
-    const section = $("section");
+    const section = document.querySelector("section");
     section.parentElement.removeChild(section);
     lastMultiSelectedLinkId = undefined;
-    const section2 = $$("section");
+    const section2 = document.createElement("section");
     if(links.length===0){
         document.body.appendChild(section2);
         makeInfoItem(chrome.i18n.getMessage("noLinks"));
@@ -120,7 +117,7 @@ function search(){
         text: true,
         case: false
     }, items => {
-        const searchTerm = $("input").value;
+        const searchTerm = document.querySelector("input").value;
         const validLinks = [];
         CURRENT_LINKS.forEach(link => {
             const term = items.case ? searchTerm : searchTerm.toLowerCase();
@@ -140,15 +137,15 @@ function search(){
  * @returns boolean
  */
 function isLocked(){
-    return $('#lock.hidden');
+    return document.querySelector('#lock.hidden');
 }
 
 /**
  * Toggle the lock state
  */
 function toggleLock(){
-    $("#lock").classList.toggle("hidden");
-    $("#unlock").classList.toggle("hidden");
+    document.querySelector("#lock").classList.toggle("hidden");
+    document.querySelector("#unlock").classList.toggle("hidden");
 }
 
 /**
@@ -158,7 +155,7 @@ function toggleLock(){
 function updateCurrentLinks(links){
     if(!isLocked()){
         CURRENT_LINKS = links;
-        if($("input").value===""){
+        if(document.querySelector("input").value===""){
             populatePanel(links);
         } else {
             search();
@@ -173,9 +170,9 @@ function updateCurrentLinks(links){
 function clearLinksAndInfo(info){
     if(!isLocked()){
         CURRENT_LINKS = [];
-        const section = $("section");
+        const section = document.querySelector("section");
         section.parentElement.removeChild(section);
-        const section2 = $$("section");
+        const section2 = document.createElement("section");
         document.body.appendChild(section2);
         makeInfoItem(info);
     }
@@ -265,14 +262,14 @@ function onMessage(message, sender){
 /**
  * Init page i18n and listeners
  */
-$("#lock").addEventListener("click", toggleLock);
-$("#lock").innerText = chrome.i18n.getMessage("lock");
-$("#unlock").addEventListener("click", toggleLock);
-$("#unlock").innerText = chrome.i18n.getMessage("unlock");
-$("input").addEventListener("input", search);
-$("input").placeholder = chrome.i18n.getMessage("search");
-$("#options").addEventListener("click", () => chrome.runtime.openOptionsPage());
-$("#options").title = chrome.i18n.getMessage("options");
+document.querySelector("#lock").addEventListener("click", toggleLock);
+document.querySelector("#lock").innerText = chrome.i18n.getMessage("lock");
+document.querySelector("#unlock").addEventListener("click", toggleLock);
+document.querySelector("#unlock").innerText = chrome.i18n.getMessage("unlock");
+document.querySelector("input").addEventListener("input", search);
+document.querySelector("input").placeholder = chrome.i18n.getMessage("search");
+document.querySelector("#options").addEventListener("click", () => chrome.runtime.openOptionsPage());
+document.querySelector("#options").title = chrome.i18n.getMessage("options");
 document.title = chrome.i18n.getMessage("name");
 document.addEventListener("keydown", openAllSelectedLinks);
 
