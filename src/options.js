@@ -1,28 +1,25 @@
 "use strict";
 
-/* Aliases for sanity */
-const $ = document.querySelector.bind(document);
-
 /**
  * Save Options
  */
 function save() {
     chrome.storage.sync.set({
-        color: $("#color").checked,
-        ff: $("#ff").checked,
-        fw: $("#fw").checked,
-        fs: $("#fs").checked,
-        url: $("#url").checked,
-        title: $("#title").checked,
-        text: $("#text").checked,
-        case: $("#case").checked,
-        max: $("#max").value,
-        samePage: $("#samePage").checked,
-        justScript: $("#justScript").checked,
+        color: document.querySelector("#color").checked,
+        ff: document.querySelector("#ff").checked,
+        fw: document.querySelector("#fw").checked,
+        fs: document.querySelector("#fs").checked,
+        url: document.querySelector("#url").checked,
+        title: document.querySelector("#title").checked,
+        text: document.querySelector("#text").checked,
+        case: document.querySelector("#case").checked,
+        max: document.querySelector("#max").value,
+        samePage: document.querySelector("#samePage").checked,
+        justScript: document.querySelector("#justScript").checked,
     }, () => {
-        $("#save").innerText = chrome.i18n.getMessage("saved");
+        document.querySelector("#save").innerText = chrome.i18n.getMessage("saved");
         setTimeout(() => {
-            $("#save").innerText = chrome.i18n.getMessage("save");
+            document.querySelector("#save").innerText = chrome.i18n.getMessage("save");
         }, 5000);
     });
 }
@@ -44,38 +41,38 @@ function restore() {
         samePage: true,
         justScript: true,
     }, items => {
-        $("#color").checked = items.color;
-        $("#ff").checked = items.ff;
-        $("#fw").checked = items.fw;
-        $("#fs").checked = items.fs;
-        $("#url").checked = items.url;
-        $("#title").checked = items.title;
-        $("#text").checked = items.text;
-        $("#case").checked = items.case;
-        $("#max").value = items.max;
-        $("#samePage").checked = items.samePage;
-        $("#justScript").checked = items.justScript;
+        document.querySelector("#color").checked = items.color;
+        document.querySelector("#ff").checked = items.ff;
+        document.querySelector("#fw").checked = items.fw;
+        document.querySelector("#fs").checked = items.fs;
+        document.querySelector("#url").checked = items.url;
+        document.querySelector("#title").checked = items.title;
+        document.querySelector("#text").checked = items.text;
+        document.querySelector("#case").checked = items.case;
+        document.querySelector("#max").value = items.max;
+        document.querySelector("#samePage").checked = items.samePage;
+        document.querySelector("#justScript").checked = items.justScript;
     });
 }
 document.addEventListener('DOMContentLoaded', restore);
 
 document.title = chrome.i18n.getMessage("options");
-$("#style").innerText = chrome.i18n.getMessage("style");
-$("#searchOptions").innerText = chrome.i18n.getMessage("searchOptions");
-$("#url + span").innerText = chrome.i18n.getMessage("url");
-$("#title + span").innerText = chrome.i18n.getMessage("title");
-$("#text + span").innerText = chrome.i18n.getMessage("text");
-$("#case + span").innerText = chrome.i18n.getMessage("case");
-$("#save").innerText = chrome.i18n.getMessage("save");
-$("#advert").innerText = chrome.i18n.getMessage("vivaldi") + chrome.runtime.getURL("panel.html");
-$("#maxlinks").innerText = chrome.i18n.getMessage("maxlinks");
-$("#max").addEventListener("input", () => {
-    if($("#max").value > 5000){
-        $("#maxwarn").innerText = chrome.i18n.getMessage("maxwarn");
+document.querySelector("#style").innerText = chrome.i18n.getMessage("style");
+document.querySelector("#searchOptions").innerText = chrome.i18n.getMessage("searchOptions");
+document.querySelector("#url + span").innerText = chrome.i18n.getMessage("url");
+document.querySelector("#title + span").innerText = chrome.i18n.getMessage("title");
+document.querySelector("#text + span").innerText = chrome.i18n.getMessage("text");
+document.querySelector("#case + span").innerText = chrome.i18n.getMessage("case");
+document.querySelector("#save").innerText = chrome.i18n.getMessage("save");
+document.querySelector("#advert").innerHTML = chrome.i18n.getMessage("vivaldi") + "<br>" + chrome.runtime.getURL("panel.html");
+document.querySelector("#maxlinks").innerText = chrome.i18n.getMessage("maxlinks");
+document.querySelector("#max").addEventListener("input", () => {
+    if(document.querySelector("#max").value > 5000){
+        document.querySelector("#maxwarn").innerText = chrome.i18n.getMessage("maxwarn");
     } else {
-        $("#maxwarn").innerText = "";
+        document.querySelector("#maxwarn").innerText = "";
     }
 })
 document.getElementById('save').addEventListener('click', save);
-$("#samePage + span").innerText = chrome.i18n.getMessage("samePage");
-$("#justScript + span").innerText = chrome.i18n.getMessage("justScript");
+document.querySelector("#samePage + span").innerText = chrome.i18n.getMessage("samePage");
+document.querySelector("#justScript + span").innerText = chrome.i18n.getMessage("justScript");

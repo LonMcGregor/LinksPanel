@@ -1,7 +1,5 @@
 "use strict";
 
-/* Aliases for sanity */
-
 let CURRENT_LINKS;
 
 /**
