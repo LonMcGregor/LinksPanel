@@ -1,3 +1,9 @@
+/**
+* Stylesheet for Links Panel Extension
+* No copyright reserved
+* Marked portions copyright their respective owners
+**/
+
 body {
     min-width: 300px;
     background-color:  var(--colorBgLightIntense);
@@ -49,4 +55,92 @@ a:visited {
 a.selected {
     background: var(--colorHighlightBg);
     color: var(--colorHighlightFg);
+}
+
+
+/**
+* Custom scrollars stolen from Vivaldi
+* These will follow the main browser theme if one is being injected
+* Copyright 2019 Vivaldi Technologies
+* https://vivaldi.com/
+**/
+::-webkit-scrollbar {
+width: 16px;
+}
+::-webkit-scrollbar-button {
+display: flex;
+width: 16px;
+height: 16px;
+}
+::-webkit-scrollbar-button:vertical {
+border-left: 1px solid var(--colorBg);
+}
+::-webkit-scrollbar-button:vertical:decrement {
+background-image: linear-gradient(transparent 68%, var(--colorBg) 68%), linear-gradient(135deg, var(--colorBg) 45%, transparent 45%), linear-gradient(45deg, var(--colorFg) 53%, var(--colorBg) 53%);
+}
+::-webkit-scrollbar-button:vertical:decrement:hover {
+background-image: linear-gradient(transparent 68%, var(--colorBgDark) 68%), linear-gradient(135deg, var(--colorBgDark) 45%, transparent 45%), linear-gradient(45deg, var(--colorFg) 53%, var(--colorBgDark) 53%);
+}
+::-webkit-scrollbar-button:vertical:decrement:active {
+background-image: linear-gradient(transparent 68%, var(--colorFg) 68%), linear-gradient(135deg, var(--colorFg) 45%, transparent 45%), linear-gradient(45deg, var(--colorBg) 53%, var(--colorFg) 53%);
+}
+::-webkit-scrollbar-button:vertical:increment {
+background-image: linear-gradient(45deg, var(--colorBg) 45%, transparent 45%), linear-gradient(-225deg, transparent 53%, var(--colorBg) 53%), linear-gradient(-180deg, var(--colorBg) 31%, var(--colorFg) 31%);
+}
+::-webkit-scrollbar-button:vertical:increment:hover {
+background-image: linear-gradient(45deg, var(--colorBgDark) 45%, transparent 45%), linear-gradient(-225deg, transparent 53%, var(--colorBgDark) 53%), linear-gradient(-180deg, var(--colorBgDark) 31%, var(--colorFg) 31%);
+}
+::-webkit-scrollbar-button:vertical:increment:active {
+background-image: linear-gradient(45deg, var(--colorFg) 45%, transparent 45%), linear-gradient(-225deg, transparent 53%, var(--colorFg) 53%), linear-gradient(-180deg, var(--colorFg) 31%, var(--colorBg) 31%);
+}
+::-webkit-scrollbar-button:horizontal {
+border-top: 1px solid var(--colorBg);
+}
+::-webkit-scrollbar-button:horizontal:decrement {
+background-image: linear-gradient(-135deg, transparent 53%, var(--colorBg) 53%), linear-gradient(-45deg, transparent 53%, var(--colorBg) 53%), linear-gradient(90deg, var(--colorFg) 70%, var(--colorBg) 70%);
+}
+::-webkit-scrollbar-button:horizontal:decrement:hover {
+background-image: linear-gradient(-135deg, transparent 53%, var(--colorBgDark) 53%), linear-gradient(-45deg, transparent 53%, var(--colorBgDark) 53%), linear-gradient(90deg, var(--colorFg) 70%, var(--colorBgDark) 70%);
+}
+::-webkit-scrollbar-button:horizontal:decrement:active {
+background-image: linear-gradient(-135deg, transparent 53%, var(--colorFg) 53%), linear-gradient(-45deg, transparent 53%, var(--colorFg) 53%), linear-gradient(90deg, var(--colorBg) 70%, var(--colorFg) 70%);
+}
+::-webkit-scrollbar-button:horizontal:increment {
+background-image: linear-gradient(135deg, transparent 53%, var(--colorBg) 53%), linear-gradient(45deg, transparent 53%, var(--colorBg) 53%), linear-gradient(-90deg, var(--colorFg) 70%, var(--colorBg) 70%);
+}
+::-webkit-scrollbar-button:horizontal:increment:hover {
+background-image: linear-gradient(135deg, transparent 53%, var(--colorBgDark) 53%), linear-gradient(45deg, transparent 53%, var(--colorBgDark) 53%), linear-gradient(-90deg, var(--colorFg) 70%, var(--colorBgDark) 70%);
+}
+::-webkit-scrollbar-button:horizontal:increment:active {
+background-image: linear-gradient(135deg, transparent 53%, var(--colorFg) 53%), linear-gradient(45deg, transparent 53%, var(--colorFg) 53%), linear-gradient(-90deg, var(--colorBg) 70%, var(--colorFg) 70%);
+}
+::-webkit-scrollbar-track {
+background-color: var(--colorBg);
+background-clip: border-box;
+}
+::-webkit-scrollbar-track:vertical {
+border-left: 1px solid var(--colorBg);
+border-right: 1px solid var(--colorBg);
+}
+::-webkit-scrollbar-track:horizontal {
+border-top: 1px solid var(--colorBg);
+border-bottom: 1px solid var(--colorBg);
+}
+::-webkit-scrollbar-thumb {
+background-color: var(--colorBorder);
+background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+background-color: var(--colorBorderIntense);
+}
+::-webkit-scrollbar-thumb:active {
+background-color: var(--colorFg);
+}
+::-webkit-scrollbar-thumb:vertical {
+border-left: 1px solid transparent;
+border-right: 1px solid transparent;
+}
+::-webkit-scrollbar-thumb:horizontal {
+border-top: 1px solid transparent;
+border-bottom: 1px solid transparent;
 }
