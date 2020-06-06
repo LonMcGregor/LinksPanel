@@ -75,6 +75,38 @@ function openAllSelectedLinks(e){
 }
 
 /**
+ * Select Link by arrow key
+ * @param {KeyboardEvent} e keypress
+ */
+function arrowSelectLink(e) {
+    if (e.key !== "ArrowUp" && e.key !== "ArrowDown") {
+      return;
+    }
+
+    var current, previous;
+    if (lastMultiSelectedLinkId === undefined) {
+        current = document.getElementById(0);
+    } else {
+        previous = current = document.getElementById(lastMultiSelectedLinkId);
+        if (e.key === "ArrowUp")
+          current = current.previousSibling;
+        else if (e.key === "ArrowDown")
+          current = current.nextSibling;
+
+        if (current !== null) {
+          previous.classList.toggle("selected");
+        }
+    }
+
+    if (current !== null) {
+        current.classList.toggle("selected");
+        lastMultiSelectedLinkId = current.id;
+        current.scrollIntoView(false);
+        e.preventDefault();
+    }
+}
+
+/**
  * Add an info item to the panel
  * @param info the text to show
  */
@@ -270,6 +302,7 @@ document.querySelector("#options").addEventListener("click", () => chrome.runtim
 document.querySelector("#options").title = chrome.i18n.getMessage("options");
 document.title = chrome.i18n.getMessage("name");
 document.addEventListener("keydown", openAllSelectedLinks);
+document.addEventListener("keydown", arrowSelectLink);
 
 chrome.tabs.onActivated.addListener(onTabActivate);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
