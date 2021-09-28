@@ -16,6 +16,7 @@ function save() {
         max: document.querySelector("#max").value,
         samePage: document.querySelector("#samePage").checked,
         justScript: document.querySelector("#justScript").checked,
+        openin: document.querySelector("#openin").value,
     }, () => {
         document.querySelector("#save").innerText = chrome.i18n.getMessage("saved");
         setTimeout(() => {
@@ -40,6 +41,7 @@ function restore() {
         max: 5000,
         samePage: true,
         justScript: true,
+        openin: '_blank'
     }, items => {
         document.querySelector("#color").checked = items.color;
         document.querySelector("#ff").checked = items.ff;
@@ -52,6 +54,7 @@ function restore() {
         document.querySelector("#max").value = items.max;
         document.querySelector("#samePage").checked = items.samePage;
         document.querySelector("#justScript").checked = items.justScript;
+        document.querySelector(`#openin option[value='${items.openin}']`).selected = true;
     });
 }
 document.addEventListener('DOMContentLoaded', restore);
@@ -63,6 +66,11 @@ document.querySelector("#url + span").innerText = chrome.i18n.getMessage("url");
 document.querySelector("#title + span").innerText = chrome.i18n.getMessage("title");
 document.querySelector("#text + span").innerText = chrome.i18n.getMessage("text");
 document.querySelector("#case + span").innerText = chrome.i18n.getMessage("case");
+
+document.querySelector("#openinp").innerText = chrome.i18n.getMessage("openin");
+document.querySelector("option[value='_blank']").innerText = chrome.i18n.getMessage("optNewTab");
+document.querySelector("option[value='linkspanel']").innerText = chrome.i18n.getMessage("optFollowerTab");
+
 document.querySelector("#save").innerText = chrome.i18n.getMessage("save");
 document.querySelector("#advert").innerHTML = chrome.i18n.getMessage("vivaldi") + "<br>" + chrome.runtime.getURL("panel.html");
 document.querySelector("#maxlinks").innerText = chrome.i18n.getMessage("maxlinks");

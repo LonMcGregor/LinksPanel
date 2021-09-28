@@ -2,6 +2,8 @@
 
 let CURRENT_LINKS;
 
+let TARGET = "_blank";
+
 /**
  * Create a <span> for a specific link
  * @param link details
@@ -15,7 +17,7 @@ function makeLink(link, index){
     panelLink.title = (tipTitle===link.href) ? link.href : `Title: ${tipTitle}
 Link: ${link.href}`;
     panelLink.innerText = link.text;
-    panelLink.target = "_blank";
+    panelLink.target = TARGET;
     panelLink.href = link.href;
     panelLink.id = index;
     panelLink.addEventListener("click", multiSelectLinks);
@@ -277,3 +279,9 @@ chrome.windows.onFocusChanged.addListener(requestLinksFromActiveTab);
 chrome.runtime.onMessage.addListener(onMessage);
 
 requestLinksFromActiveTab();
+
+chrome.storage.sync.get({
+    openin: '_blank'
+}, items => {
+    TARGET = items.openin;
+});

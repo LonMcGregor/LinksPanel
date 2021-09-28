@@ -82,5 +82,17 @@
     "justScript":{
         "message": "Hide links that are just a script",
         "description": "Prompt for checkbox to hide links that are just scripts"
+    },
+    "openin":{
+        "message": "Open links in...",
+        "description": "Settings option title for how to open links"
+    },
+    "optNewTab":{
+        "message": "New Tab (default)",
+        "description": "Settings option to open in new tab"
+    },
+    "optFollowerTab":{
+        "message": "Follower Tab",
+        "description": "Settings option to open in follower tab"
     }
 }
