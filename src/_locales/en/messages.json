@@ -20,8 +20,8 @@
         "description": "Prompt to filter the list of links"
     },
     "failed": {
-        "message": "Could not get any links from tab",
-        "description": "The extension failed to get links from the page"
+        "message": "Could not get any links from tab, you may need to reload the tab",
+        "description": "The extension failed to get links from the page, possibly because the extension has just been installed and existing open pages are not ready"
     },
     "noLinks": {
         "message": "No Links",

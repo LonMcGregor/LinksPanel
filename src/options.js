@@ -17,7 +17,8 @@ function save() {
         samePage: document.querySelector("#samePage").checked,
         justScript: document.querySelector("#justScript").checked,
         openin: document.querySelector("#openin").value,
-    }, () => {
+    })
+    .then(() => {
         document.querySelector("#save").innerText = chrome.i18n.getMessage("saved");
         setTimeout(() => {
             document.querySelector("#save").innerText = chrome.i18n.getMessage("save");
@@ -42,7 +43,8 @@ function restore() {
         samePage: true,
         justScript: true,
         openin: '_blank'
-    }, items => {
+    })
+    .then(items => {
         document.querySelector("#color").checked = items.color;
         document.querySelector("#ff").checked = items.ff;
         document.querySelector("#fw").checked = items.fw;
