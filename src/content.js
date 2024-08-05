@@ -4,7 +4,7 @@
 /**
  * Get relevant details out of an <a> node
  * @param a node
- * @returns Link detail strings {title, text, href, style}
+ * @returns Link detail strings {title, text, href, style} or indicate failure
  */
 function processAnchor(a){
     let computedStyle;
@@ -46,7 +46,7 @@ function sendLinks(links){
 }
 
 /**
- * Get list of link details
+ * Get list of link details and send it
  */
 function getAllAnchors(){
     const listOfAnchors = [];
@@ -82,7 +82,8 @@ chrome.storage.sync.get({
     max: 5000,
     samePage: true,
     justScript: true
-}, items => {
+})
+.then(items => {
     SETTINGS = items;
     chrome.runtime.onMessage.addListener(onMessage);
 });

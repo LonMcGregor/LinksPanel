@@ -108,7 +108,6 @@ async function populatePanel(links){
 
 /**
  * Filter all the link details and only show those beign searched for
- * REMARK: Currently searches for match in any of title, text, href
  */
 function search(){
     chrome.storage.sync.get({
@@ -116,7 +115,8 @@ function search(){
         title: true,
         text: true,
         case: false
-    }, items => {
+    })
+    .then(items => {
         const searchTerm = document.querySelector("input").value;
         const validLinks = [];
         CURRENT_LINKS.forEach(link => {
@@ -185,7 +185,8 @@ function clearLinksAndInfo(info){
  * @param tab the tab object
  */
 function onTabUpdate(tabId, info, tab){
-    chrome.windows.getLastFocused(window => {
+    chrome.windows.getLastFocused()
+    .then(window => {
         const tabWindowOnTop = tab.windowId == window.id;
         if(tabWindowOnTop && tab.active){
             requestLinksFromTabs(tabId);
@@ -198,22 +199,12 @@ function onTabUpdate(tabId, info, tab){
  * @param info A tab was activated
  */
 function onTabActivate(info){
-    chrome.windows.getLastFocused(window => {
+    chrome.windows.getLastFocused()
+    .then(window => {
         const tabWindowOnTop = info.windowId == window.id;
         if(tabWindowOnTop){
             requestLinksFromTabs(info.tabId);
         }
-    });
-}
-
-/**
- * Try to inject the content script, and then request the links
- */
-function injectContentScript(tabId, attempts){
-    chrome.tabs.executeScript(tabId, {
-        file: "content.js"
-    }, () => {
-        requestLinksFromTabs(tabId, attempts);
     });
 }
 
@@ -224,10 +215,14 @@ function injectContentScript(tabId, attempts){
 function requestLinksFromTabs(tabId){
     chrome.tabs.sendMessage(tabId, {
         panelWantsLinks: true
-    }, {}, response => {
+    })
+    .then(response => {
         if(!response){
             clearLinksAndInfo(chrome.i18n.getMessage("failed"));
         }
+    })
+    .catch(() => {
+        clearLinksAndInfo(chrome.i18n.getMessage("failed"));
     });
 }
 
@@ -235,7 +230,8 @@ function requestLinksFromTabs(tabId){
  * Panel first activated, get links from active tab
  */
 function requestLinksFromActiveTab(){
-    chrome.tabs.query({active:true, lastFocusedWindow: true, windowType: "normal"}, tabs => {
+    chrome.tabs.query({active:true, lastFocusedWindow: true, windowType: "normal"})
+    .then(tabs => {
         if(tabs[0]){
             requestLinksFromTabs(tabs[0].id);
         } else {
@@ -250,7 +246,8 @@ function requestLinksFromActiveTab(){
  * @param sender
  */
 function onMessage(message, sender){
-    chrome.windows.getLastFocused({}, window => {
+    chrome.windows.getLastFocused()
+    .then(window => {
         if(sender.tab && sender.tab.active && sender.tab.windowId===window.id){
             if(message.someLinks){
                 updateCurrentLinks(message.someLinks);
@@ -282,6 +279,7 @@ requestLinksFromActiveTab();
 
 chrome.storage.sync.get({
     openin: '_blank'
-}, items => {
+})
+.then(items => {
     TARGET = items.openin;
 });
