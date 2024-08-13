@@ -92,7 +92,9 @@ function makeInfoItem(info){
  */
 async function populatePanel(links){
     const section = document.querySelector("section");
-    section.parentElement.removeChild(section);
+    if(section){
+        section.parentElement.removeChild(section);
+    }
     lastMultiSelectedLinkId = undefined;
     const section2 = document.createElement("section");
     if(links.length===0){
@@ -171,7 +173,9 @@ function clearLinksAndInfo(info){
     if(!isLocked()){
         CURRENT_LINKS = [];
         const section = document.querySelector("section");
-        section.parentElement.removeChild(section);
+        if(section){
+            section.parentElement.removeChild(section);
+        }
         const section2 = document.createElement("section");
         document.body.appendChild(section2);
         makeInfoItem(info);
