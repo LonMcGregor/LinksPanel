@@ -53,6 +53,7 @@ function getAllAnchors(){
     const allLinks = document.links;
     for(let i = 0; i < SETTINGS.max; i++){
         const link = processAnchor(allLinks[i]);
+        link.index = i;
         if(!link.fail){
             listOfAnchors.push(link);
         }

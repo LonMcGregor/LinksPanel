@@ -21,7 +21,7 @@
     },
     "failed": {
         "message": "Could not get any links from tab, you may need to reload the tab",
-        "description": "The extension failed to get links from the page, possibly because the extension has just been installed and existing open pages are not ready"
+        "description": "Shows when the extension failed to get links from the page, possibly because the extension has just been installed and existing open pages are not ready"
     },
     "noLinks": {
         "message": "No Links",
@@ -94,5 +94,21 @@
     "optFollowerTab":{
         "message": "Follower Tab",
         "description": "Settings option to open in follower tab"
+    },
+    "displaySettings":{
+        "message": "How should items be displayed in the panel",
+        "description": "Settings label for the area dedicated to display settings"
+    },
+    "urlsOnly":{
+        "message": "Show only URLs",
+        "description": "Label for settings option to only display urls in panel"
+    },
+    "sorted":{
+        "message": "Sort Alphabetically",
+        "description": "Label for settings option to sort the items alphabetically"
+    },
+    "removeDupes":{
+        "message": "Hide Duplicate URLs",
+        "description": "Label for settings option to hide links with duplicate URLs"
     }
 }

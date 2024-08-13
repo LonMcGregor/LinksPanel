@@ -3,6 +3,9 @@
 let CURRENT_LINKS;
 
 let TARGET = "_blank";
+let REMOVE_DUPES = false;
+let SORTED = false;
+let URLS_ONLY = false;
 
 /**
  * Create a <span> for a specific link
@@ -16,7 +19,7 @@ function makeLink(link, index){
     const tipTitle = link.title ? link.title : link.text;
     panelLink.title = (tipTitle===link.href) ? link.href : `Title: ${tipTitle}
 Link: ${link.href}`;
-    panelLink.innerText = link.text;
+    panelLink.innerText = URLS_ONLY ? link.href : link.text;
     panelLink.target = TARGET;
     panelLink.href = link.href;
     panelLink.id = index;
@@ -151,14 +154,73 @@ function toggleLock(){
 }
 
 /**
+ * Prepare links for dupe removal
+ * @param links array of link details
+ * @returns an array of link details
+ */
+function removeDupes(links){
+    //sort by href first
+    links.sort((x,y) => {
+        return x.href.localeCompare(y.href);
+    });
+    // then remove the duplicates
+    if(REMOVE_DUPES){
+        for (let i = 0; i < links.length; i++) {
+            // go through each one
+            const current = links[i];
+            let j = i+1;
+            // check it against all subsequent ones that exist
+            while(current && j<links.length){
+                const other = links[j];
+                if(other && current.href===other.href){
+                    // if it is the same, remove it
+                    links[j] = null;
+                    // and move to the one after
+                    j++;
+                } else {
+                    // because the array is sorted, weknow there's no others
+                    break;
+                }
+            }
+        }
+        // then compact the array
+        links = links.filter(x => x!==null);
+    }
+    // if we are not sorting them, only removing dupes,
+    // we need to put them back in the right order
+    if(!SORTED){
+        links.sort((x,y) => x.index - y.index);
+    }
+    return links;
+}
+
+/**
+ * Sort array
+ */
+function doSort(links){
+    const sortmode = URLS_ONLY ? 'href' : 'text';
+    links.sort((x,y) => {
+        return x[sortmode].localeCompare(y[sortmode]);
+    });
+    return links;
+}
+
+
+/**
  * Received an array of link details to put in panel
  * @param links array details
  */
 function updateCurrentLinks(links){
     if(!isLocked()){
         CURRENT_LINKS = links;
+        if(REMOVE_DUPES){ // if sorted or removing dupes, use that mode
+            CURRENT_LINKS = removeDupes(CURRENT_LINKS);
+        }
+        if(SORTED){
+            CURRENT_LINKS = doSort(CURRENT_LINKS);
+        }
         if(document.querySelector("input").value===""){
-            populatePanel(links);
+            populatePanel(CURRENT_LINKS);
         } else {
             search();
         }
@@ -225,7 +287,7 @@ function requestLinksFromTabs(tabId){
             clearLinksAndInfo(chrome.i18n.getMessage("failed"));
         }
     })
-    .catch(() => {
+    .catch((e) => { // probably 'Error: Could not establish connection. Receiving end does not exist.'
         clearLinksAndInfo(chrome.i18n.getMessage("failed"));
     });
 }
@@ -238,9 +300,8 @@ function requestLinksFromActiveTab(){
     .then(tabs => {
         if(tabs[0]){
             requestLinksFromTabs(tabs[0].id);
-        } else {
-            console.warn("No valid active tab. Focus may be in dev tools, or tab didn't load.")
         }
+        // else No valid active tab. Focus may be in dev tools, or tab didn't load.
     });
 }
 
@@ -282,8 +343,14 @@ chrome.runtime.onMessage.addListener(onMessage);
 requestLinksFromActiveTab();
 
 chrome.storage.sync.get({
-    openin: '_blank'
+    openin: '_blank',
+    urlsOnly: false,
+    removeDupes: false,
+    sorted: false
 })
 .then(items => {
     TARGET = items.openin;
+    REMOVE_DUPES = items.removeDupes;
+    SORTED = items.sorted;
+    URLS_ONLY = items.urlsOnly;
 });
