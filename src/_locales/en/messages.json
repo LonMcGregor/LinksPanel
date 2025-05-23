@@ -56,16 +56,12 @@
         "description": "Settings page prompt to save"
     },
     "saved":{
-        "message": "Saved! Panel will not change style unless page is reloaded.",
+        "message": "Saved!",
         "description": "Settings page prompt save complete"
     },
     "case":{
         "message": "MaTcH CaSe",
         "description": "Settings page prompt search follow case"
-    },
-    "vivaldi":{
-        "message": "Works best in a Vivaldi web panel! Add this URL: ",
-        "description": "vivaldi advert, to which a panel url will be appended"
     },
     "maxlinks":{
         "message": "Maximum number of links to parse",

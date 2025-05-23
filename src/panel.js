@@ -6,6 +6,10 @@ let TARGET = "_blank";
 let REMOVE_DUPES = false;
 let SORTED = false;
 let URLS_ONLY = false;
+let SEARCH_URL = false;
+let SEARCH_TITLE = true;
+let SEARCH_TEXT = true;
+let SEARCH_CASE = false;
 
 /**
  * Create a <span> for a specific link
@@ -115,26 +119,18 @@ async function populatePanel(links){
  * Filter all the link details and only show those beign searched for
  */
 function search(){
-    chrome.storage.sync.get({
-        url: false,
-        title: true,
-        text: true,
-        case: false
-    })
-    .then(items => {
-        const searchTerm = document.querySelector("input").value;
-        const validLinks = [];
-        CURRENT_LINKS.forEach(link => {
-            const term = items.case ? searchTerm : searchTerm.toLowerCase();
-            const url = items.url && (items.case ? link.href : link.href.toLowerCase()).indexOf(term) > -1;
-            const title = items.title && (items.case ? link.title : link.title.toLowerCase()).indexOf(term) > -1;
-            const text = items.text && (items.case ? link.text : link.text.toLowerCase()).indexOf(term) > -1;
-            if(url || title || text){
-                validLinks.push(link);
-            }
-        });
-        populatePanel(validLinks);
+    const searchTerm = document.querySelector("input").value;
+    const validLinks = [];
+    CURRENT_LINKS.forEach(link => {
+        const term = SEARCH_CASE ? searchTerm : searchTerm.toLowerCase();
+        const url = SEARCH_URL && (SEARCH_CASE ? link.href : link.href.toLowerCase()).indexOf(term) > -1;
+        const title = SEARCH_TITLE && (SEARCH_CASE ? link.title : link.title.toLowerCase()).indexOf(term) > -1;
+        const text = SEARCH_TEXT && (SEARCH_CASE ? link.text : link.text.toLowerCase()).indexOf(term) > -1;
+        if(url || title || text){
+            validLinks.push(link);
+        }
     });
+    populatePanel(validLinks);
 }
 
 /**
@@ -251,6 +247,7 @@ function clearLinksAndInfo(info){
  * @param tab the tab object
  */
 function onTabUpdate(tabId, info, tab){
+    if(document.hidden){return}
     chrome.windows.getLastFocused()
     .then(window => {
         const tabWindowOnTop = tab.windowId == window.id;
@@ -265,6 +262,7 @@ function onTabUpdate(tabId, info, tab){
  * @param info A tab was activated
  */
 function onTabActivate(info){
+    if(document.hidden){return}
     chrome.windows.getLastFocused()
     .then(window => {
         const tabWindowOnTop = info.windowId == window.id;
@@ -272,6 +270,14 @@ function onTabActivate(info){
             requestLinksFromTabs(info.tabId);
         }
     });
+}
+
+/**
+ * The panel was opened (or closed, but that doesn't really matter)
+ * so get the latest links from the currently open tab
+ */
+function onPanelOpened(){
+    requestLinksFromActiveTab();
 }
 
 /**
@@ -306,11 +312,15 @@ function requestLinksFromActiveTab(){
 }
 
 /**
- * Receieve a message - will probably be a request to get links
+ * Receieve a message -
+ * either will be a request to get links
+ * or note that the settings have changed and panel needs reloaded
  * @param message
  * @param sender
  */
 function onMessage(message, sender){
+    if(message.newoptions){location.reload()}
+    if(document.hidden){return}
     chrome.windows.getLastFocused()
     .then(window => {
         if(sender.tab && sender.tab.active && sender.tab.windowId===window.id){
@@ -339,6 +349,7 @@ chrome.tabs.onActivated.addListener(onTabActivate);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
 chrome.windows.onFocusChanged.addListener(requestLinksFromActiveTab);
 chrome.runtime.onMessage.addListener(onMessage);
+document.addEventListener("visibilitychange", onPanelOpened);
 
 requestLinksFromActiveTab();
 
@@ -346,11 +357,19 @@ chrome.storage.sync.get({
     openin: '_blank',
     urlsOnly: false,
     removeDupes: false,
-    sorted: false
+    sorted: false,
+    url: false,
+    title: true,
+    text: true,
+    case: false
 })
 .then(items => {
     TARGET = items.openin;
     REMOVE_DUPES = items.removeDupes;
     SORTED = items.sorted;
     URLS_ONLY = items.urlsOnly;
+    SEARCH_URL = items.url;
+    SEARCH_TITLE = items.title;
+    SEARCH_TEXT = items.text;
+    SEARCH_CASE = items.case;
 });

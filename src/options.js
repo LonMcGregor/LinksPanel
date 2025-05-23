@@ -29,6 +29,7 @@ function save() {
         setTimeout(() => {
             document.querySelector("#save").innerText = chrome.i18n.getMessage("save");
         }, 5000);
+        chrome.runtime.sendMessage({newoptions: true})
     });
 }
 
@@ -111,4 +112,3 @@ document.querySelector("#max").addEventListener("input", () => {
 
 document.querySelector("#save").innerText = chrome.i18n.getMessage("save");
 document.getElementById('save').addEventListener('click', save);
-document.querySelector("#advert").innerHTML = chrome.i18n.getMessage("vivaldi") + "<br>" + chrome.runtime.getURL("panel.html");

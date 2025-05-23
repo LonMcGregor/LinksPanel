@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "__MSG_name__",
-    "version": "2.1",
+    "version": "3.0",
 
     "default_locale": "en",
     "description": "__MSG_description__",
@@ -15,6 +15,10 @@
     "author": "Léon McGregor",
     "homepage_url": "https://github.com/LonMcGregor/LinksPanel",
 
+    "background": {
+      "service_worker": "sw.js"
+    },
+
     "action": {
       "default_icon": {
         "16": "16.png",
@@ -23,8 +27,11 @@
         "48": "48.png",
         "128": "128.png"
       },
-      "default_title": "__MSG_name__",
-      "default_popup": "panel.html"
+      "default_title": "__MSG_name__"
+    },
+
+    "side_panel": {
+      "default_path": "panel.html"
     },
 
     "content_scripts": [
@@ -37,7 +44,7 @@
     "content_security_policy": {
       "extension_pages": "default-src 'self'; style-src 'unsafe-inline';"
     },
-    "permissions": ["storage"],
+    "permissions": ["storage", "sidePanel"],
 
     "options_ui": {
       "page": "options.html",

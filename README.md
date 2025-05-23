@@ -36,3 +36,14 @@ Vivaldi may fail to load the web panel icon. You can force it with the following
 ### Forcing the panel to follow the browser theme
 
 Utilise the mod from here: [LonMcGregor/VivaldiMods/injectThemeIntoPage.js](https://github.com/LonMcGregor/VivaldiMods/blob/master/mods/injectThemeIntoPage.js) and change the URL at the top of the script to `chrome-extension://nnnheolekoehkioeicninoneagaimnjd/panel.html`.
+
+## Changelog
+3.0: Real Sidepanel
+* New: Use the side panel API to load in a panel instead of a popup
+* New: offer options to sort and remove duplicates
+* Efficiency: only update panel when it is visible
+* Fix: Auto reload panel if settings changed
+
+2.0: Update to MV3
+
+1.0: Initial release
