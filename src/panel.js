@@ -385,10 +385,12 @@ function onMessage(message, sender){
 
 /* download the links
 add them to the queue
-start the download queue function via interval, only if not already started, and keep track of the interval */
+start the download queue function via interval, only if not already started, and keep track of the interval
+don't use CURRENT_LINKS here, that way you can filter downloads by the search or selection systems */
 function download(){
     const selected = document.querySelectorAll("a.selected");
-    const linkstoDownload = selected.length==0 ? CURRENT_LINKS.map(x => x.href) : Array.from(selected).map(x => x.href);
+    const alllinks = document.querySelectorAll("a");
+    const linkstoDownload = selected.length==0 ? Array.from(alllinks).map(x => x.href) : Array.from(selected).map(x => x.href);
     DOWNLOAD_QUEUE.push(...linkstoDownload);
     if(!DOWNLOAD_QUEUE_INTERVAL){
         DOWNLOAD_QUEUE_INTERVAL = setInterval(goThroughDownloadQueue, 1000);
