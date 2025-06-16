@@ -10,12 +10,6 @@ function save() {
         fw: document.querySelector("#fw").checked,
         fs: document.querySelector("#fs").checked,
 
-        url: document.querySelector("#url").checked,
-        title: document.querySelector("#title").checked,
-        text: document.querySelector("#text").checked,
-        case: document.querySelector("#case").checked,
-        complex: document.querySelector("#complex").checked,
-
         samePage: document.querySelector("#samePage").checked,
         justScript: document.querySelector("#justScript").checked,
         urlsOnly: document.querySelector('#urlsOnly').checked,
@@ -44,12 +38,6 @@ function restore() {
         fw: true,
         fs: true,
 
-        url: false,
-        title: true,
-        text: true,
-        case: false,
-        complex: false,
-
         samePage: true,
         justScript: true,
         urlsOnly: false,
@@ -64,12 +52,6 @@ function restore() {
         document.querySelector("#ff").checked = items.ff;
         document.querySelector("#fw").checked = items.fw;
         document.querySelector("#fs").checked = items.fs;
-
-        document.querySelector("#url").checked = items.url;
-        document.querySelector("#title").checked = items.title;
-        document.querySelector("#text").checked = items.text;
-        document.querySelector("#case").checked = items.case;
-        document.querySelector("#complex").checked = items.complex;
 
         document.querySelector("#samePage").checked = items.samePage;
         document.querySelector("#justScript").checked = items.justScript;
@@ -86,13 +68,6 @@ document.addEventListener('DOMContentLoaded', restore);
 document.title = chrome.i18n.getMessage("options");
 document.querySelector("#style").innerText = chrome.i18n.getMessage("style");
 /* style options are not translated */
-
-document.querySelector("#searchOptions").innerText = chrome.i18n.getMessage("searchOptions");
-document.querySelector("#url + span").innerText = chrome.i18n.getMessage("url");
-document.querySelector("#title + span").innerText = chrome.i18n.getMessage("title");
-document.querySelector("#text + span").innerText = chrome.i18n.getMessage("text");
-document.querySelector("#case + span").innerText = chrome.i18n.getMessage("case");
-document.querySelector("#complex + span").innerText = chrome.i18n.getMessage("complex");
 
 document.querySelector("#displaySettings").innerText = chrome.i18n.getMessage("displaySettings");
 document.querySelector("#samePage + span").innerText = chrome.i18n.getMessage("samePage");

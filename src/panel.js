@@ -120,6 +120,18 @@ async function populatePanel(links){
  * Filter all the link details and only show those beign searched for
  */
 function search(){
+    chrome.storage.sync.set({
+        url: document.querySelector("#url").checked,
+        title: document.querySelector("#title").checked,
+        text: document.querySelector("#text").checked,
+        case: document.querySelector("#case").checked,
+        complex: document.querySelector("#complex").checked,
+    });
+    SEARCH_URL = document.querySelector("#url").checked;
+    SEARCH_TITLE = document.querySelector("#title").checked;
+    SEARCH_TEXT = document.querySelector("#text").checked;
+    SEARCH_CASE = document.querySelector("#case").checked;
+    SEARCH_COMPLEX = document.querySelector("#complex").checked;
     if(SEARCH_COMPLEX){return complexSearch();}
     const searchTerm = document.querySelector("input").value;
     const validLinks = [];
@@ -374,6 +386,7 @@ function onMessage(message, sender){
  */
 document.querySelector("#lock").addEventListener("click", toggleLock);
 document.querySelector("#lock").innerText = chrome.i18n.getMessage("lock");
+document.querySelector("#lock").title = chrome.i18n.getMessage("lock_tip");
 document.querySelector("#unlock").addEventListener("click", toggleLock);
 document.querySelector("#unlock").innerText = chrome.i18n.getMessage("unlock");
 document.querySelector("input").addEventListener("input", search);
@@ -382,6 +395,18 @@ document.querySelector("#options").addEventListener("click", () => chrome.runtim
 document.querySelector("#options").title = chrome.i18n.getMessage("options");
 document.title = chrome.i18n.getMessage("name");
 document.addEventListener("keydown", openAllSelectedLinks);
+
+
+document.querySelector("#url + span").title = chrome.i18n.getMessage("url_tip");
+document.querySelector("#title + span").title = chrome.i18n.getMessage("title_tip");
+document.querySelector("#text + span").title = chrome.i18n.getMessage("text_tip");
+document.querySelector("#case + span").title = chrome.i18n.getMessage("case_tip");
+document.querySelector("#complex + span").title = chrome.i18n.getMessage("complex_tip");
+document.querySelector("#url").addEventListener('input', search);
+document.querySelector("#title").addEventListener('input', search);
+document.querySelector("#text").addEventListener('input', search);
+document.querySelector("#case").addEventListener('input', search);
+document.querySelector("#complex").addEventListener('input', search);
 
 chrome.tabs.onActivated.addListener(onTabActivate);
 chrome.tabs.onUpdated.addListener(onTabUpdate);
@@ -412,4 +437,9 @@ chrome.storage.sync.get({
     SEARCH_TEXT = items.text;
     SEARCH_CASE = items.case;
     SEARCH_COMPLEX = items.complex;
+    document.querySelector("#url").checked = items.url;
+    document.querySelector("#title").checked = items.title;
+    document.querySelector("#text").checked = items.text;
+    document.querySelector("#case").checked = items.case;
+    document.querySelector("#complex").checked = items.complex;
 });

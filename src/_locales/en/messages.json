@@ -15,6 +15,10 @@
         "message": "Click to Unlock",
         "description": "Text on button in panel that auto updates the latest set of links"
     },
+    "lock_tip": {
+        "message": "Lock the panel to keep the same list of links even after you switch tabs",
+        "description": "Tooltip text on button in panel that toggles locking"
+    },
     "search": {
         "message": "Search...",
         "description": "Prompt to filter the list of links"
@@ -51,6 +55,34 @@
         "message": "Text",
         "description": "Settings page prompt for search options (Text)"
     },
+    "case":{
+        "message": "MaTcH CaSe",
+        "description": "Settings page prompt search follow case"
+    },
+    "complex":{
+        "message": "Advanced",
+        "description": "Settings page prompt for complex search by terms with negation with hyphen"
+    },
+    "url_tip":{
+        "message": "Search in the link's URL",
+        "description": "Tooltip explaining search filtering using search options (URL)"
+    },
+    "title_tip":{
+        "message": "Search in the link's title attribute",
+        "description": "Tooltip explaining search filtering using search options (Title)"
+    },
+    "text_tip":{
+        "message": "Search in the link's visible text",
+        "description": "Tooltip explaining search filtering using search options (Text)"
+    },
+    "case_tip":{
+        "message": "Search following the case of the search terms",
+        "description": "Tooltip explaining search filtering using follow case"
+    },
+    "complex_tip":{
+        "message": "Use an advanced search where each term must match, and any preceded by a hyphen (-) are excluded",
+        "description": "Tooltip explaining search filtering using complex search by terms with negation with hyphen"
+    },
     "save":{
         "message": "Save",
         "description": "Settings page prompt to save"
@@ -58,14 +90,6 @@
     "saved":{
         "message": "Saved!",
         "description": "Settings page prompt save complete"
-    },
-    "case":{
-        "message": "MaTcH CaSe",
-        "description": "Settings page prompt search follow case"
-    },
-    "complex":{
-        "message": "search by individual term and -negations",
-        "description": "Settings page prompt for complex search by terms with negation with hyphen"
     },
     "maxlinks":{
         "message": "Maximum number of links to parse",
