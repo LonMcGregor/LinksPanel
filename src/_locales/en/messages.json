@@ -23,6 +23,10 @@
         "message": "Search...",
         "description": "Prompt to filter the list of links"
     },
+    "saveall_tip": {
+        "message": "Save all selected pages to downloads folder",
+        "description": "Tooltip for the button to save all pages"
+    },
     "failed": {
         "message": "Could not get any links from tab, you may need to reload the tab",
         "description": "Shows when the extension failed to get links from the page, possibly because the extension has just been installed and existing open pages are not ready"

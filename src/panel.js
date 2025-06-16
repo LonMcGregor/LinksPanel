@@ -1,6 +1,8 @@
 "use strict";
 
 let CURRENT_LINKS;
+const DOWNLOAD_QUEUE = []
+let DOWNLOAD_QUEUE_INTERVAL;
 
 let TARGET = "_blank";
 let REMOVE_DUPES = false;
@@ -381,6 +383,33 @@ function onMessage(message, sender){
     });
 }
 
+/* download the links
+add them to the queue
+start the download queue function via interval, only if not already started, and keep track of the interval */
+function download(){
+    const selected = document.querySelectorAll("a.selected");
+    const linkstoDownload = selected.length==0 ? CURRENT_LINKS.map(x => x.href) : Array.from(selected).map(x => x.href);
+    DOWNLOAD_QUEUE.push(...linkstoDownload);
+    if(!DOWNLOAD_QUEUE_INTERVAL){
+        DOWNLOAD_QUEUE_INTERVAL = setInterval(goThroughDownloadQueue, 1000);
+    }
+}
+
+/* go through the download queue
+download each file one at a time to discourage overloading a server
+clear the interval when empty to prevent the code looping forever*/
+function goThroughDownloadQueue(){
+    const oneDownload = DOWNLOAD_QUEUE.pop();
+    chrome.downloads.download({url: oneDownload, saveAs: false, conflictAction: "uniquify"})
+    .catch(e => {
+        console.error(e);
+    });
+    if(DOWNLOAD_QUEUE.length == 0){
+        clearInterval(DOWNLOAD_QUEUE_INTERVAL);
+        DOWNLOAD_QUEUE_INTERVAL = undefined;
+    }
+}
+
 /**
  * Init page i18n and listeners
  */
@@ -395,6 +424,8 @@ document.querySelector("#options").addEventListener("click", () => chrome.runtim
 document.querySelector("#options").title = chrome.i18n.getMessage("options");
 document.title = chrome.i18n.getMessage("name");
 document.addEventListener("keydown", openAllSelectedLinks);
+document.querySelector("#download").addEventListener("click", download);
+document.querySelector("#download").title = chrome.i18n.getMessage("saveall_tip");
 
 
 document.querySelector("#url + span").title = chrome.i18n.getMessage("url_tip");
