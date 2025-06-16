@@ -14,6 +14,7 @@ function save() {
         title: document.querySelector("#title").checked,
         text: document.querySelector("#text").checked,
         case: document.querySelector("#case").checked,
+        complex: document.querySelector("#complex").checked,
 
         samePage: document.querySelector("#samePage").checked,
         justScript: document.querySelector("#justScript").checked,
@@ -47,6 +48,7 @@ function restore() {
         title: true,
         text: true,
         case: false,
+        complex: false,
 
         samePage: true,
         justScript: true,
@@ -67,6 +69,7 @@ function restore() {
         document.querySelector("#title").checked = items.title;
         document.querySelector("#text").checked = items.text;
         document.querySelector("#case").checked = items.case;
+        document.querySelector("#complex").checked = items.complex;
 
         document.querySelector("#samePage").checked = items.samePage;
         document.querySelector("#justScript").checked = items.justScript;
@@ -89,6 +92,7 @@ document.querySelector("#url + span").innerText = chrome.i18n.getMessage("url");
 document.querySelector("#title + span").innerText = chrome.i18n.getMessage("title");
 document.querySelector("#text + span").innerText = chrome.i18n.getMessage("text");
 document.querySelector("#case + span").innerText = chrome.i18n.getMessage("case");
+document.querySelector("#complex + span").innerText = chrome.i18n.getMessage("complex");
 
 document.querySelector("#displaySettings").innerText = chrome.i18n.getMessage("displaySettings");
 document.querySelector("#samePage + span").innerText = chrome.i18n.getMessage("samePage");

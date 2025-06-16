@@ -63,6 +63,10 @@
         "message": "MaTcH CaSe",
         "description": "Settings page prompt search follow case"
     },
+    "complex":{
+        "message": "search by individual term and -negations",
+        "description": "Settings page prompt for complex search by terms with negation with hyphen"
+    },
     "maxlinks":{
         "message": "Maximum number of links to parse",
         "description": "Setings prompt for max number links to parse"

@@ -10,6 +10,7 @@ let SEARCH_URL = false;
 let SEARCH_TITLE = true;
 let SEARCH_TEXT = true;
 let SEARCH_CASE = false;
+let SEARCH_COMPLEX = false;
 
 /**
  * Create a <span> for a specific link
@@ -119,6 +120,7 @@ async function populatePanel(links){
  * Filter all the link details and only show those beign searched for
  */
 function search(){
+    if(SEARCH_COMPLEX){return complexSearch();}
     const searchTerm = document.querySelector("input").value;
     const validLinks = [];
     CURRENT_LINKS.forEach(link => {
@@ -129,6 +131,42 @@ function search(){
         if(url || title || text){
             validLinks.push(link);
         }
+    });
+    populatePanel(validLinks);
+}
+
+function complexSearch(){
+    const searchTermText = document.querySelector("input").value;
+    let filteredLinks;
+    const validLinks = [];
+    const terms = SEARCH_CASE ? searchTermText.split(' ') : searchTermText.split(' ').map(x => x.toLocaleLowerCase());
+    const nTerms = terms.filter(x => x[0]==='-').map(x => x.substring(1)).filter(x => x !== "");
+    const pTerms = terms.filter(x => x[0]!=='-');
+    /* If any of the negated terms are present anywhere, don't include that result */
+    if(nTerms.length > 0){
+        filteredLinks = [];
+        CURRENT_LINKS.forEach(link => {
+            for(let i = 0; i < nTerms.length; i++){
+                const term = nTerms[i];
+                if(SEARCH_URL && (SEARCH_CASE ? link.href : link.href.toLowerCase()).indexOf(term) > -1) return;
+                if(SEARCH_TITLE && (SEARCH_CASE ? link.title : link.title.toLowerCase()).indexOf(term) > -1) return;
+                if(SEARCH_TEXT && (SEARCH_CASE ? link.text : link.text.toLowerCase()).indexOf(term) > -1) return;
+            }
+            filteredLinks.push(link);
+        });
+    } else {
+        filteredLinks = CURRENT_LINKS;
+    }
+    /* include a result only if each search term is present in at least one of the url,title or text */
+    filteredLinks.forEach(link => {
+        for(let i = 0; i < pTerms.length; i++){
+            const term = pTerms[i];
+            const url = SEARCH_URL && (SEARCH_CASE ? link.href : link.href.toLowerCase()).indexOf(term) > -1;
+            const title = SEARCH_TITLE && (SEARCH_CASE ? link.title : link.title.toLowerCase()).indexOf(term) > -1;
+            const text = SEARCH_TEXT && (SEARCH_CASE ? link.text : link.text.toLowerCase()).indexOf(term) > -1;
+            if(!(url || title || text)) return;
+        }
+        validLinks.push(link);
     });
     populatePanel(validLinks);
 }
@@ -361,7 +399,8 @@ chrome.storage.sync.get({
     url: false,
     title: true,
     text: true,
-    case: false
+    case: false,
+    complex: false,
 })
 .then(items => {
     TARGET = items.openin;
@@ -372,4 +411,5 @@ chrome.storage.sync.get({
     SEARCH_TITLE = items.title;
     SEARCH_TEXT = items.text;
     SEARCH_CASE = items.case;
+    SEARCH_COMPLEX = items.complex;
 });
