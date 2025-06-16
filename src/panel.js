@@ -383,11 +383,16 @@ function onMessage(message, sender){
     });
 }
 
+/* show download modal */
+function download(){
+    document.querySelector("dialog").showModal();
+}
+
 /* download the links
 add them to the queue
 start the download queue function via interval, only if not already started, and keep track of the interval
 don't use CURRENT_LINKS here, that way you can filter downloads by the search or selection systems */
-function download(){
+function startDownloadQueue(){
     const selected = document.querySelectorAll("a.selected");
     const alllinks = document.querySelectorAll("a");
     const linkstoDownload = selected.length==0 ? Array.from(alllinks).map(x => x.href) : Array.from(selected).map(x => x.href);
@@ -412,6 +417,36 @@ function goThroughDownloadQueue(){
     }
 }
 
+/* functions to save the panel contents to a text file */
+function saveFileTxt(){
+    const selected = document.querySelectorAll("a.selected");
+    const alllinks = document.querySelectorAll("a");
+    const data = selected.length==0 ? Array.from(alllinks).map(x => x.href+"\n") : Array.from(selected).map(x => x.href+"\n");
+    const txtFile = new File(data, "links.txt", {type: "text/plain"});
+    const blob = window.URL.createObjectURL(txtFile);
+    chrome.downloads.download({url: blob, saveAs: true, filename: "links.txt"});
+}
+
+function saveFileMd(){
+    const selected = document.querySelectorAll("a.selected");
+    const alllinks = document.querySelectorAll("a");
+    const data = selected.length==0 ? Array.from(alllinks) : Array.from(selected);
+    const formattedData = data.map(x => `[${x.innerText}](${x.href})\n`);
+    const txtFile = new File(formattedData, "links.md", {type: "text/markdown"});
+    const blob = window.URL.createObjectURL(txtFile);
+    chrome.downloads.download({url: blob, saveAs: true, filename: "links.md"});
+}
+
+function saveFileJson(){
+    const selected = document.querySelectorAll("a.selected");
+    const alllinks = document.querySelectorAll("a");
+    const data = selected.length==0 ? Array.from(alllinks) : Array.from(selected);
+    const formattedData = JSON.stringify(data.map(x => { return {href: x.href, text: x.innerText}; } ))
+    const txtFile = new File([formattedData], "links.json", {type: "application/json"});
+    const blob = window.URL.createObjectURL(txtFile);
+    chrome.downloads.download({url: blob, saveAs: true, filename: "links.json"});
+}
+
 /**
  * Init page i18n and listeners
  */
@@ -426,8 +461,18 @@ document.querySelector("#options").addEventListener("click", () => chrome.runtim
 document.querySelector("#options").title = chrome.i18n.getMessage("options");
 document.title = chrome.i18n.getMessage("name");
 document.addEventListener("keydown", openAllSelectedLinks);
+
 document.querySelector("#download").addEventListener("click", download);
 document.querySelector("#download").title = chrome.i18n.getMessage("saveall_tip");
+document.querySelector("dialog h4").innerText = chrome.i18n.getMessage("saveall_tip");
+document.querySelector("#saveall").innerText = chrome.i18n.getMessage("saveall");
+document.querySelector("#txt").innerText = chrome.i18n.getMessage("txt");
+document.querySelector("#markdown").innerText = chrome.i18n.getMessage("markdown");
+document.querySelector("#json").innerText = chrome.i18n.getMessage("json");
+document.querySelector("#saveall").addEventListener("click", startDownloadQueue);
+document.querySelector("#txt").addEventListener("click", saveFileTxt);
+document.querySelector("#markdown").addEventListener("click", saveFileMd);
+document.querySelector("#json").addEventListener("click", saveFileJson);
 
 
 document.querySelector("#url + span").title = chrome.i18n.getMessage("url_tip");

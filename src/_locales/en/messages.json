@@ -24,8 +24,24 @@
         "description": "Prompt to filter the list of links"
     },
     "saveall_tip": {
-        "message": "Save all selected pages to downloads folder",
+        "message": "Save all selected pages",
         "description": "Tooltip for the button to save all pages"
+    },
+    "saveall": {
+        "message": "Save all pages to downloads folder (may take a long time)",
+        "description": "popup button for saving all pages"
+    },
+    "txt": {
+        "message": "Save all page URLs as TXT",
+        "description": "popup button for saving all pages to a txt file"
+    },
+    "markdown": {
+        "message": "Save all page URLs as Markdown",
+        "description": "popup button for saving all pages to a list"
+    },
+    "json": {
+        "message": "Save all page URLs as JSON",
+        "description": "popup button for saving all page as json"
     },
     "failed": {
         "message": "Could not get any links from tab, you may need to reload the tab",
