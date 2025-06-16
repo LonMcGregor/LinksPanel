@@ -8,12 +8,12 @@
         "description": "Description of extension"
     },
     "lock": {
-        "message": "Click to Lock",
-        "description": "Text on button in panel that prevents changes to the list of links"
+        "message": "🔓︎",
+        "description": "Text on button in panel that prevents changes to the list of links (i.e. currently unlocked)"
     },
     "unlock": {
-        "message": "Click to Unlock",
-        "description": "Text on button in panel that auto updates the latest set of links"
+        "message": "🔒︎",
+        "description": "Text on button in panel that auto updates the latest set of links (i.e. currently locked)"
     },
     "lock_tip": {
         "message": "Lock the panel to keep the same list of links even after you switch tabs",

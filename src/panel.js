@@ -455,6 +455,7 @@ document.querySelector("#lock").innerText = chrome.i18n.getMessage("lock");
 document.querySelector("#lock").title = chrome.i18n.getMessage("lock_tip");
 document.querySelector("#unlock").addEventListener("click", toggleLock);
 document.querySelector("#unlock").innerText = chrome.i18n.getMessage("unlock");
+document.querySelector("#unlock").title = chrome.i18n.getMessage("lock_tip");
 document.querySelector("input").addEventListener("input", search);
 document.querySelector("input").placeholder = chrome.i18n.getMessage("search");
 document.querySelector("#options").addEventListener("click", () => chrome.runtime.openOptionsPage());
