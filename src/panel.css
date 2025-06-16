@@ -67,6 +67,10 @@ nav {
     justify-content: space-between;
 }
 
+nav.closed {
+    display: none;
+}
+
 section {
     display: flex;
     flex-direction: column;

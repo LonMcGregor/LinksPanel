@@ -122,6 +122,12 @@ async function populatePanel(links){
  * Filter all the link details and only show those beign searched for
  */
 function search(){
+    const searchTerm = document.querySelector("input").value;
+    if(searchTerm){
+        document.querySelector("nav").classList.remove("closed");
+    } else {
+        document.querySelector("nav").classList.add("closed");
+    }
     chrome.storage.sync.set({
         url: document.querySelector("#url").checked,
         title: document.querySelector("#title").checked,
@@ -135,7 +141,6 @@ function search(){
     SEARCH_CASE = document.querySelector("#case").checked;
     SEARCH_COMPLEX = document.querySelector("#complex").checked;
     if(SEARCH_COMPLEX){return complexSearch();}
-    const searchTerm = document.querySelector("input").value;
     const validLinks = [];
     CURRENT_LINKS.forEach(link => {
         const term = SEARCH_CASE ? searchTerm : searchTerm.toLowerCase();
