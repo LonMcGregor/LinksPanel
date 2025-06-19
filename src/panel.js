@@ -497,6 +497,7 @@ chrome.tabs.onUpdated.addListener(onTabUpdate);
 chrome.windows.onFocusChanged.addListener(requestLinksFromActiveTab);
 chrome.runtime.onMessage.addListener(onMessage);
 document.addEventListener("visibilitychange", onPanelOpened);
+document.getElementById("closedl").addEventListener("click", e => {document.getElementsByTagName("dialog")[0].close()})
 
 requestLinksFromActiveTab();
 

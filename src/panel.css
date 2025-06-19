@@ -92,6 +92,14 @@ a.selected {
     color: var(--colorHighlightFg);
 }
 
+dialog h4 {
+    margin-top: 0;
+}
+
+#closedl {
+    float: right;
+}
+
 
 /**
 * Custom scrollars stolen from Vivaldi
